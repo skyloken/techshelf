@@ -1,0 +1,10 @@
+# PyCharm
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+
+# Django
+__pycache__
+staticfiles
+local_settings.py
+db.sqlite3
+*.py[co]
