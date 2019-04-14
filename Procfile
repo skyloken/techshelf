@@ -1,0 +1,1 @@
+web: gunicorn teching.wsgi --log-file -
