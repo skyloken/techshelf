@@ -38,13 +38,14 @@ class Book(models.Model):
 
 class Review(models.Model):
     """Review for the Book"""
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name='レビューユーザ')
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='reviews',
+                             verbose_name='レビューユーザ')
     book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='対象の本')
     score = models.FloatField('スコア', validators=[MinValueValidator(1.0), MaxValueValidator(5.0)])
     title = models.CharField('タイトル', max_length=200)
     reason = models.TextField('読んだ理由')
     body = models.TextField('レビュー')
-    likes = models.ManyToManyField(get_user_model(), verbose_name='いいねしたユーザ')
+    likes = models.ManyToManyField(get_user_model(), related_name='likes', verbose_name='いいねしたユーザ', )
     reviewed_at = models.DateTimeField('レビュー日時', auto_now_add=True)
 
     def __str__(self):
