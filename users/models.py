@@ -3,5 +3,5 @@ from django.db import models
 
 
 class User(AbstractUser):
-    icon = models.ImageField(upload_to='icons/')
-    bio = models.CharField(max_length=200)
+    icon = models.ImageField('アイコン', upload_to='icons/')
+    bio = models.CharField('バイオグラフィー', max_length=200)
