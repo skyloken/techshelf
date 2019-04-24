@@ -1,16 +1,14 @@
 <nav class="uk-navbar-container" uk-navbar>
     <div class="uk-navbar-left">
-
         <ul class="uk-navbar-nav">
             <a class="uk-navbar-item uk-logo" href="/">Teching</a>
-            <li class="uk-active"><a href="#">Reviews</a></li>
-            <li><a href="#">Books</a></li>
+            <li class="uk-active uk-visible@s"><a href="#">Reviews</a></li>
+            <li class="uk-visible@s"><a href="#">Books</a></li>
         </ul>
-
     </div>
     <div class="uk-navbar-right">
         {% if user.is_authenticated %}
-            <ul class="uk-navbar-nav">
+            <ul class="uk-navbar-nav uk-visible@s">
                 <li>
                     <a href="#">{{ user.get_username }}<span uk-icon="triangle-down"></span></a>
                     <div class="uk-navbar-dropdown">
@@ -23,13 +21,45 @@
                 </li>
             </ul>
         {% else %}
-            <div class="uk-navbar-item">
+            <div class="uk-navbar-item uk-visible@s">
                 <a class="uk-button uk-button-default" href="{% url 'login' %}">Log in</a>
             </div>
-            <div class="uk-navbar-item">
+            <div class="uk-navbar-item uk-visible@s">
                 <a class="uk-button uk-button-primary" href="{% url 'signup' %}">Sign up</a>
             </div>
         {% endif %}
+        <a class="uk-navbar-toggle uk-hidden@s" uk-toggle="target: #sidenav" uk-navbar-toggle-icon></a>
     </div>
-
 </nav>
+
+<div id="sidenav" uk-offcanvas>
+    <div class="uk-offcanvas-bar">
+
+        <button class="uk-offcanvas-close" type="button" uk-close></button>
+
+        <ul class="uk-nav uk-nav-default">
+
+            <li class="uk-logo">Teching</li>
+            <li class="uk-nav-header"></li>
+            <li class="uk-active"><a href="#">Reviews</a></li>
+            <li><a href="#">Books</a></li>
+            <li class="uk-nav-divider"></li>
+
+            {% if user.is_authenticated %}
+                <li class="uk-parent">
+                    <a href="#">{{ user.get_username }}</a>
+                    <ul class="uk-nav-sub">
+                        <li><a href="#"><span uk-icon="user"></span> Profile</a></li>
+                        <li><a href="#"><span uk-icon="settings"></span> Settings</a></li>
+                        <li><a href="{% url 'logout' %}"><span uk-icon="sign-out"></span> Log out</a></li>
+                    </ul>
+                </li>
+            {% else %}
+                <li><a href="{% url 'login' %}"><span uk-icon="sign-in"></span> Log in</a></li>
+                <li><a href="{% url 'signup' %}"><span uk-icon="check"></span> Sign up</a></li>
+            {% endif %}
+
+        </ul>
+
+    </div>
+</div>
