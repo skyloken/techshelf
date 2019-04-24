@@ -15,9 +15,9 @@
                     <a href="#">{{ user.get_username }}<span uk-icon="triangle-down"></span></a>
                     <div class="uk-navbar-dropdown">
                         <ul class="uk-nav uk-navbar-dropdown-nav">
-                            <li><a href="#">Profile</a></li>
-                            <li><a href="#">Settings</a></li>
-                            <li><a href="{% url 'logout' %}">Log out</a></li>
+                            <li><a href="#"><span uk-icon="user"></span> Profile</a></li>
+                            <li><a href="#"><span uk-icon="settings"></span> Settings</a></li>
+                            <li><a href="{% url 'logout' %}"><span uk-icon="sign-out"></span> Log out</a></li>
                         </ul>
                     </div>
                 </li>
