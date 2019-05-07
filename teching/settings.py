@@ -141,7 +141,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'ERROR'),
         },
     },
 }
@@ -156,4 +156,4 @@ except ImportError:
 if not DEBUG:
     import django_heroku
 
-    django_heroku.settings(locals())
+    django_heroku.settings(locals(), logging=False)
