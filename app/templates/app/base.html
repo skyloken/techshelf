@@ -10,10 +10,10 @@
     {% block css %}{% endblock %}
 </head>
 <body>
-{% block header %}{% endblock %}
+{% block header %}{% include 'app/layouts/header.html' %}{% endblock %}
 {% block nav %}{% include 'app/layouts/nav.html' %}{% endblock %}
 {% block content %}{% endblock %}
-{% block footer %}{% endblock %}
+{% block footer %}{% include 'app/layouts/footer.html' %}{% endblock %}
 <script src="{% static 'js/uikit.min.js' %}"></script>
 <script src="{% static 'js/uikit-icons.min.js' %}"></script>
 {% block js %}{% endblock %}
