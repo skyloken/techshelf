@@ -6,4 +6,5 @@ db.sqlite3
 *.py[co]
 
 # App
-/media/icons
+/media/icons/*
+!/media/icons/default.png
