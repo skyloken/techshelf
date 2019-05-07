@@ -7,17 +7,65 @@
 
 {% block content %}
 
-    <div class="uk-background-cover uk-height-large uk-panel uk-flex uk-flex-center uk-flex-middle uk-light"
-         data-src="{% static 'app/images/book.jpg' %}" uk-img>
-        <div class="uk-text-center text-against-img">
-            <h1 class="uk-heading-medium">Mark, Read, Review.</h1>
-            <p class="uk-text-emphasis">
-                Techingは，技術書レビューサイトです．<br>
-                読みたい技術書をマークしましょう．<br>
-                技術書を読んで，レビューしましょう．<br>
-                そして，良い技術書に出会いましょう ;)<br>
-            </p>
+    {% if not user.is_authenticated %}
+        <div class="uk-background-cover uk-height-large uk-panel uk-flex uk-flex-center uk-flex-middle uk-light"
+             data-src="{% static 'app/images/book.jpg' %}" uk-parallax="bgy: -100" uk-img>
+            <div class="uk-text-center text-against-img">
+                <h1 class="uk-heading-medium">Mark, Read, Review.</h1>
+                <p class="uk-text-emphasis">
+                    Techingは，技術書レビューサイトです．<br>
+                    読みたい技術書をマークしましょう．<br>
+                    技術書を読んで，レビューしましょう．<br>
+                    そして，良い技術書に出会いましょう ;)<br>
+                </p>
+            </div>
         </div>
+    {% endif %}
+
+    <div class="uk-section">
+        <div class="uk-container uk-container-small">
+            <p class="uk-text-lead uk-text-center">Latest reviews</p>
+            {% for review in review_list %}
+                <div class="uk-card uk-card-default uk-card-hover uk-width-1-2 uk-align-center">
+                    <div class="uk-card-badge">
+                        {% if review.score >= 4.0 %}
+                            <div class="uk-label">score: {{ review.score }}</div>
+                        {% elif review.score >= 3.0 %}
+                            <div class="uk-label uk-label-success">score: {{ review.score }}</div>
+                        {% elif review.score >= 2.0 %}
+                            <div class="uk-label uk-label-warning">score: {{ review.score }}</div>
+                        {% else %}
+                            <div class="uk-label uk-label-danger">score: {{ review.score }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <img class="uk-border-circle" width="40" height="40" src="{{ review.user.icon.url }}">
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">{{ review.title }}</h3>
+                                <p class="uk-text-meta uk-margin-remove-top">
+                                    <time datetime="2016-04-01T19:00">{{ review.reviewed_at }}</time>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-card-body">
+                        <p class="uk-text-meta">Why read?</p>
+                        <p>{{ review.reason }}</p>
+                        <hr>
+                        <p class="uk-text-meta">Review</p>
+                        <p>{{ review.body }}</p>
+                    </div>
+                    <div class="uk-card-footer">
+                        <a href="{% url 'review_detail' review.id %}" class="uk-button uk-button-text">Read more</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <a href="#" uk-totop uk-scroll></a>
     </div>
+
 
 {% endblock %}

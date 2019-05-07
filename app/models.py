@@ -67,7 +67,7 @@ class Mark(models.Model):
     """Mark for the Book"""
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name='マークユーザ')
     book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='対象の本')
-    comment = models.TextField('コメント')
+    comment = models.TextField('コメント', blank=True, null=True)
     marked_at = models.DateTimeField('マーク日時')
 
     def __str__(self):
