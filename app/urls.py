@@ -8,6 +8,9 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('reviews/<int:review_id>/', views.review_detail, name='review_detail'),
 
+    path('books/', views.books, name='books'),
+    path('books/<int:book_id>', views.book_detail, name='book_detail'),
+
     path('login/', auth_views.LoginView.as_view(template_name='app/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('signup/', views.SignUpView.as_view(), name='signup'),
