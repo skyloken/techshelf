@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
+import json
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -160,8 +160,8 @@ if not DEBUG:
 
     # Google Cloud Storage
     from google.oauth2 import service_account
-    
-    info = os.environ.get('GOOGLE_CLOUD_KEYFILE_JSON')
+
+    info = json.loads(os.environ.get('GOOGLE_CLOUD_KEYFILE_JSON'))
     GS_CREDENTIALS = service_account.Credentials.from_service_account_info(info)
     DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
     GS_BUCKET_NAME = "teching-media"
