@@ -157,3 +157,9 @@ if not DEBUG:
     import django_heroku
 
     django_heroku.settings(locals(), logging=False)
+
+    # Google Cloud Storage
+    info = os.environ.get('GOOGLE_CLOUD_KEYFILE_JSON')
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(info)
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+    GS_BUCKET_NAME = "teching-media"
