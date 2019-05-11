@@ -2,9 +2,9 @@
     <nav class="uk-navbar-container uk-navbar-transparent uk-background-secondary uk-light" uk-navbar>
         <div class="uk-navbar-left">
             <ul class="uk-navbar-nav">
-                <a class="uk-navbar-item uk-logo" href="/">Teching</a>
-                <li class="uk-active uk-visible@s"><a href="#">Reviews</a></li>
-                <li class="uk-visible@s"><a href="#">Books</a></li>
+                <a class="uk-navbar-item uk-logo" href="{% url 'index' %}">Teching</a>
+                <li class="uk-{{ reviews_page }} uk-visible@s"><a href="{% url 'index' %}">Reviews</a></li>
+                <li class="uk-{{ books_page }} uk-visible@s"><a href="{% url 'books' %}">Books</a></li>
             </ul>
         </div>
         <div class="uk-navbar-right">
@@ -43,8 +43,8 @@
 
             <li class="uk-logo">Teching</li>
             <li class="uk-nav-header"></li>
-            <li class="uk-active"><a href="#">Reviews</a></li>
-            <li><a href="#">Books</a></li>
+            <li class="uk-{{ reviews_page }}"><a href="{% url 'index' %}">Reviews</a></li>
+            <li class="uk-{{ books_page }}"><a href="{% url 'books' %}">Books</a></li>
             <li class="uk-nav-divider"></li>
 
             {% if user.is_authenticated %}
