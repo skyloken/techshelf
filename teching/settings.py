@@ -159,6 +159,8 @@ if not DEBUG:
     django_heroku.settings(locals(), logging=False)
 
     # Google Cloud Storage
+    from google.oauth2 import service_account
+    
     info = os.environ.get('GOOGLE_CLOUD_KEYFILE_JSON')
     GS_CREDENTIALS = service_account.Credentials.from_service_account_info(info)
     DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
