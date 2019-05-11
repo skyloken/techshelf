@@ -12,7 +12,12 @@
 <body>
 {% block header %}{% include 'app/layouts/header.html' %}{% endblock %}
 {% block nav %}{% include 'app/layouts/nav.html' %}{% endblock %}
-{% block content %}{% endblock %}
+{% block jumbotron %}{% endblock %}
+<div class="uk-section">
+    <div class="uk-container uk-container-small">
+        {% block content %}{% endblock %}
+    </div>
+</div>
 {% block footer %}{% include 'app/layouts/footer.html' %}{% endblock %}
 <script src="{% static 'js/uikit.min.js' %}"></script>
 <script src="{% static 'js/uikit-icons.min.js' %}"></script>

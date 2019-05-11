@@ -7,25 +7,38 @@
 
 {% block content %}
 
-    <div class="uk-section">
-        <div class="uk-container uk-container-small">
-            <button class="uk-button uk-button-primary uk-align-center" href="#modal-sections" uk-toggle><span
-                    uk-icon="plus"></span> Add New Book
-            </button>
-            <p class="uk-text-lead uk-text-center">Books</p>
-            <div class="uk-flex uk-flex-center " uk-grid
-                 uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 100; repeat: false">
-                {% for book in book_list %}
-                    <div>
-                        <div class="uk-card uk-card-default uk-card-hover uk-card-media-top">
-                            <a href="{% url 'book_detail' book.id %}"><img src="{{ book.image_link }}" alt=""></a>
+    <button class="uk-button uk-button-primary uk-align-center" href="#modal-sections" uk-toggle><span
+            uk-icon="plus"></span> Add New Book
+    </button>
+    <p class="uk-text-lead uk-text-center">Books</p>
+    <div class="uk-flex uk-flex-center uk-flex-middle" uk-grid
+         uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 100; repeat: false">
+        {% for book in book_list %}
+            <div>
+                <div class="uk-card uk-card-default uk-card-hover uk-card-media-top">
+                    <a href="{% url 'book_detail' book.id %}"><img src="{{ book.image_link }}" alt=""></a>
+                </div>
+                <div class="uk-margin-top uk-text-center">
+                    <span uk-icon="star"></span>
+                    {% if not book.ave_score %}
+                        <div class="uk-label uk-label-danger uk-text-large">0.0</div>
+                    {% elif book.ave_score >= 4.0 %}
+                        <div class="uk-label uk-text-large">{{ book.ave_score | floatformat:1 }}</div>
+                    {% elif book.ave_score >= 3.0 %}
+                        <div class="uk-label uk-label-success uk-text-large">{{ book.ave_score | floatformat:1 }}</div>
+                    {% elif book.ave_score >= 2.0 %}
+                        <div class="uk-label uk-label-warning uk-text-large">{{ book.ave_score | floatformat:1 }}
                         </div>
-                    </div>
-                {% endfor %}
+                    {% else %}
+                        <div class="uk-label uk-label-danger uk-text-large">{{ book.ave_score | floatformat:1 }}
+                        </div>
+                    {% endif %}
+                </div>
             </div>
-            <a href="#" uk-totop uk-scroll></a>
-        </div>
+
+        {% endfor %}
     </div>
+    <a href="#" uk-totop uk-scroll></a>
 
     <div id="modal-sections" uk-modal>
         <div class="uk-modal-dialog">
@@ -39,7 +52,7 @@
                     <p>追加したい本のISBN(13桁)を入力してください</p>
                     {{ add_book_form.isbn }}
                     <p class="uk-text-meta">
-                        ※ Google Books API に存在する本にのみ対応しています<br>
+                        ※ <a href="https://books.google.co.jp">Googleブックス</a>に存在する本にのみ対応しています<br>
                         ※ 技術書以外の追加はご遠慮ください
                     </p>
                     <input class="uk-button uk-button-primary" type="submit" value="Add">

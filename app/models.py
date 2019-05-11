@@ -45,7 +45,7 @@ class Review(models.Model):
     title = models.CharField('タイトル', max_length=200)
     reason = models.TextField('読んだ理由')
     body = models.TextField('レビュー')
-    likes = models.ManyToManyField(get_user_model(), related_name='likes', verbose_name='いいねしたユーザ', )
+    likes = models.ManyToManyField(get_user_model(), related_name='likes', verbose_name='いいねしたユーザ', blank=True)
     reviewed_at = models.DateTimeField('レビュー日時', auto_now_add=True)
 
     def __str__(self):

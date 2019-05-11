@@ -5,8 +5,8 @@
     {{ block.super }}
 {% endblock %}
 
-{% block content %}
 
+{% block jumbotron %}
     {% if not user.is_authenticated %}
         <div class="uk-background-cover uk-height-large uk-panel uk-flex uk-flex-center uk-flex-middle uk-light"
              data-src="{% static 'app/images/book.jpg' %}" uk-parallax="bgy: -100" uk-img>
@@ -22,67 +22,68 @@
             </div>
         </div>
     {% endif %}
+{% endblock %}
 
-    <div class="uk-section">
-        <div class="uk-container uk-container-small">
-            <p class="uk-text-lead uk-text-center">Latest reviews</p>
-            <div uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 120; repeat: false">
-                {% for review in review_list %}
-                    <div class="uk-card uk-card-default uk-card-hover uk-width-2-3@s uk-align-center">
-                        <div class="uk-card-badge">
-                            {% if review.score >= 4.0 %}
-                                <div class="uk-label uk-text-large">{{ review.score }}</div>
-                            {% elif review.score >= 3.0 %}
-                                <div class="uk-label uk-label-success uk-text-large">{{ review.score }}</div>
-                            {% elif review.score >= 2.0 %}
-                                <div class="uk-label uk-label-warning uk-text-large">{{ review.score }}</div>
-                            {% else %}
-                                <div class="uk-label uk-label-danger uk-text-large">{{ review.score }}</div>
-                            {% endif %}
+{% block content %}
+
+    <p class="uk-text-lead uk-text-center">Latest reviews</p>
+    <div uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 120; repeat: false">
+        {% for review in review_list %}
+            <div class="uk-card uk-card-default uk-card-hover uk-width-2-3@s uk-align-center">
+                <div class="uk-card-badge">
+                    <span uk-icon="star"></span>
+                    {% if review.score >= 4.0 %}
+                        <div class="uk-label uk-text-large">{{ review.score }}</div>
+                    {% elif review.score >= 3.0 %}
+                        <div class="uk-label uk-label-success uk-text-large">{{ review.score }}</div>
+                    {% elif review.score >= 2.0 %}
+                        <div class="uk-label uk-label-warning uk-text-large">{{ review.score }}</div>
+                    {% else %}
+                        <div class="uk-label uk-label-danger uk-text-large">{{ review.score }}</div>
+                    {% endif %}
+                </div>
+                <div class="uk-card-header">
+                    <div class="uk-grid-small uk-flex-middle" uk-grid>
+                        <div class="uk-width-auto">
+                            <a href="#"><img class="uk-border-circle" width="40" height="40"
+                                             src="{{ review.user.icon.url }}"></a>
                         </div>
-                        <div class="uk-card-header">
-                            <div class="uk-grid-small uk-flex-middle" uk-grid>
-                                <div class="uk-width-auto">
-                                    <img class="uk-border-circle" width="40" height="40"
-                                         src="{{ review.user.icon.url }}">
-                                </div>
-                                <div class="uk-width-expand">
-                                    <h3 class="uk-card-title uk-margin-remove-bottom">{{ review.title }}</h3>
-                                    <p class="uk-text-meta uk-margin-remove-top">
-                                        <time datetime="2016-04-01T19:00">{{ review.reviewed_at }}</time>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="uk-card-body">
-                            <div>
-                                <div class="uk-grid-small uk-flex-middle" uk-grid>
-                                    <div class="uk-width-1-3">
-                                        <a href="{% url 'book_detail' review.book.id %}"><img
-                                                src="{{ review.book.image_link }}"></a>
-                                    </div>
-                                    <div class="uk-width-2-3">
-                                        <h4>{{ review.book.title }}</h4>
-                                        <p>{{ review.book.description | linebreaksbr }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <p class="uk-text-meta">Why read?</p>
-                            <p>{{ review.reason | linebreaksbr }}</p>
-                            <hr>
-                            <p class="uk-text-meta">Review</p>
-                            <p>{{ review.body | linebreaksbr }}</p>
-                        </div>
-                        <div class="uk-card-footer">
-                            <a href="{% url 'review_detail' review.id %}" class="uk-button uk-button-text">Read more</a>
+                        <div class="uk-width-expand">
+                            <h3 class="uk-card-title uk-margin-remove-bottom">{{ review.title }}</h3>
+                            <p class="uk-text-meta uk-margin-remove-top">
+                                <a href="#">{{ review.user.username }}</a><br>
+                                <time>{{ review.reviewed_at }}</time>
+                            </p>
                         </div>
                     </div>
-                {% endfor %}
+                </div>
+                <div class="uk-card-body">
+                    <div>
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-1-3">
+                                <a href="{% url 'book_detail' review.book.id %}"><img
+                                        src="{{ review.book.image_link }}"></a>
+                            </div>
+                            <div class="uk-width-2-3">
+                                <h4>{{ review.book.title }}</h4>
+                                <p>{{ review.book.description | linebreaksbr }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <p class="uk-text-meta">Why read?</p>
+                    <p>{{ review.reason | linebreaksbr }}</p>
+                    <hr>
+                    <p class="uk-text-meta">Review</p>
+                    <p>{{ review.body | linebreaksbr }}</p>
+                </div>
+                <div class="uk-card-footer">
+                    <a href="{% url 'review_detail' review.id %}" class="uk-button uk-button-text">Read more</a>
+                </div>
             </div>
-
-            <a href="#" uk-totop uk-scroll></a>
-        </div>
+        {% endfor %}
     </div>
+
+    <a href="#" uk-totop uk-scroll></a>
 
 {% endblock %}
