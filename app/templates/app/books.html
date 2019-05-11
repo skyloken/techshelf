@@ -9,9 +9,9 @@
 
     <div class="uk-section">
         <div class="uk-container uk-container-small">
-            <div class="uk-button-large uk-position-fixed uk-position-bottom-right uk-margin-large-bottom uk-margin-large-left">
-                <button class="uk-button uk-button-primary "><span uk-icon="plus"></span> Add New Book</button>
-            </div>
+            <button class="uk-button uk-button-primary uk-align-center" href="#modal-sections" uk-toggle><span
+                    uk-icon="plus"></span> Add New Book
+            </button>
             <p class="uk-text-lead uk-text-center">Books</p>
             <div class="uk-flex uk-flex-center " uk-grid
                  uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 100; repeat: false">
@@ -24,6 +24,27 @@
                 {% endfor %}
             </div>
             <a href="#" uk-totop uk-scroll></a>
+        </div>
+    </div>
+
+    <div id="modal-sections" uk-modal>
+        <div class="uk-modal-dialog">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+            <div class="uk-modal-header">
+                <h2 class="uk-modal-title">New Book</h2>
+            </div>
+            <div class="uk-modal-body uk-text-center">
+                <form action="{% url 'books' %}" method="POST">
+                    {% csrf_token %}
+                    <p>追加したい本のISBN(13桁)を入力してください</p>
+                    {{ add_book_form.isbn }}
+                    <p class="uk-text-meta">
+                        ※ Google Books API に存在する本にのみ対応しています<br>
+                        ※ 技術書以外の追加はご遠慮ください
+                    </p>
+                    <input class="uk-button uk-button-primary" type="submit" value="Add">
+                </form>
+            </div>
         </div>
     </div>
 

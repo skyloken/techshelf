@@ -10,14 +10,15 @@
     {% if not user.is_authenticated %}
         <div class="uk-background-cover uk-height-large uk-panel uk-flex uk-flex-center uk-flex-middle uk-light"
              data-src="{% static 'app/images/book.jpg' %}" uk-parallax="bgy: -100" uk-img>
-            <div class="uk-text-center text-against-img">
-                <h1 class="uk-heading-medium">Mark, Read, Review.</h1>
-                <p class="uk-text-emphasis">
+            <div class="uk-text-center">
+                <h1 class="uk-heading-medium text-against-img">Mark, Read, Review.</h1>
+                <p class="uk-text-emphasis text-against-img">
                     Techingは，技術書レビューサイトです．<br>
                     読みたい技術書をマークしましょう．<br>
                     技術書を読んで，レビューしましょう．<br>
                     そして，良い技術書に出会いましょう ;)<br>
                 </p>
+                <a href="{% url 'books' %}" class="uk-button uk-button-danger">技術書一覧へ</a>
             </div>
         </div>
     {% endif %}

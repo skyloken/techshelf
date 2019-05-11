@@ -1,9 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from .forms import CustomUserCreationForm
-from .models import *
+from .models import Book, Review
+from .forms import CustomUserCreationForm, AddBookForm
+from .service import get_book_info
 
 
 class SignUpView(generic.CreateView):
@@ -25,9 +26,17 @@ def review_detail(request, review_id):
 
 
 def books(request):
-    book_list = Book.objects.order_by('title')
-    context = {'books_page': 'active', 'book_list': book_list}
-    return render(request, 'app/books.html', context)
+    if request.method == "POST":
+        add_book_form = AddBookForm(request.POST)
+        if add_book_form.is_valid():
+            # 新規本追加処理
+            book = get_book_info(add_book_form.save(commit=False))
+            return redirect('book_detail', book_id=book.id)
+    else:
+        add_book_form = AddBookForm()
+        book_list = Book.objects.order_by('title')
+        context = {'books_page': 'active', 'book_list': book_list, 'add_book_form': add_book_form}
+        return render(request, 'app/books.html', context)
 
 
 def book_detail(request, book_id):

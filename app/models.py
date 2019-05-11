@@ -26,7 +26,7 @@ class Book(models.Model):
     isbn = models.CharField('ISBN', max_length=13)
     title = models.CharField('書籍名', max_length=200)
     authors = models.ManyToManyField(Author, verbose_name='著者')
-    tags = models.ManyToManyField(Tag, verbose_name='タグ')
+    tags = models.ManyToManyField(Tag, verbose_name='タグ', blank=True)
     published_date = models.DateField('発刊日')
     description = models.TextField('説明')
     image_link = models.URLField('画像URL')
