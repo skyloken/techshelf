@@ -5,6 +5,7 @@ from django.views import generic
 from .models import Book, Review
 from .forms import CustomUserCreationForm, AddBookForm
 from .service import get_book_info
+from django.db.models import Avg
 
 
 class SignUpView(generic.CreateView):
@@ -34,12 +35,13 @@ def books(request):
             return redirect('book_detail', book_id=book.id)
     else:
         add_book_form = AddBookForm()
-        book_list = Book.objects.order_by('title')
+        book_list = Book.objects.order_by('title').annotate(ave_score=Avg('review__score'))
         context = {'books_page': 'active', 'book_list': book_list, 'add_book_form': add_book_form}
         return render(request, 'app/books.html', context)
 
 
 def book_detail(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
-    context = {'books_page': 'active', 'book': book}
+    agg = book.review_set.aggregate(Avg('score'))
+    context = {'books_page': 'active', 'book': book, 'ave_score': agg['score__avg']}
     return render(request, 'app/book_detail.html', context)

@@ -7,7 +7,84 @@
 
 {% block content %}
 
-    <p>{{ book.title }}</p>
-    <p>{{ book.description }}</p>
+    <div class="uk-flex uk-flex-center uk-margin-large uk-grid-large" uk-grid>
+        <div class="uk-width-auto">
+            <a href="{{ book.info_link }}"><img class="" src="{{ book.image_link }}"></a>
+            <div class="uk-margin-top uk-text-center">
+                <span uk-icon="star"></span>
+                {% if not ave_score %}
+                    <div class="uk-label uk-label-danger uk-text-large">0.0</div>
+                {% elif ave_score >= 4.0 %}
+                    <div class="uk-label uk-text-large">{{ ave_score | floatformat:1 }}</div>
+                {% elif ave_score >= 3.0 %}
+                    <div class="uk-label uk-label-success uk-text-large">{{ ave_score | floatformat:1 }}</div>
+                {% elif ave_score >= 2.0 %}
+                    <div class="uk-label uk-label-warning uk-text-large">{{ ave_score | floatformat:1 }}
+                    </div>
+                {% else %}
+                    <div class="uk-label uk-label-danger uk-text-large">{{ ave_score | floatformat:1 }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="uk-width-large">
+            {% for tag in book.tags.all %}
+                <span class="uk-label">{{ tag.name }}</span>
+            {% endfor %}
+            <h2>{{ book.title }}</h2>
+            <p class="uk-text-meta">{{ book.authors.all | join:', ' }}<br>{{ book.published_date | date:"Y/n" }}</p>
+            <p>{{ book.description | linebreaksbr }}</p>
+        </div>
+    </div>
+
+    <p class="uk-text-lead uk-text-center">Book reviews</p>
+    {% if book.review_set.all %}
+        <div uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 120; repeat: false">
+            {% for review in book.review_set.all %}
+                <div class="uk-card uk-card-default uk-card-hover uk-width-2-3@s uk-align-center">
+                    <div class="uk-card-badge">
+                        <span uk-icon="star"></span>
+                        {% if review.score >= 4.0 %}
+                            <div class="uk-label uk-text-large">{{ review.score }}</div>
+                        {% elif review.score >= 3.0 %}
+                            <div class="uk-label uk-label-success uk-text-large">{{ review.score }}</div>
+                        {% elif review.score >= 2.0 %}
+                            <div class="uk-label uk-label-warning uk-text-large">{{ review.score }}</div>
+                        {% else %}
+                            <div class="uk-label uk-label-danger uk-text-large">{{ review.score }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="uk-card-header">
+                        <div class="uk-grid-small uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <a href="#"><img class="uk-border-circle" width="40" height="40"
+                                                 src="{{ review.user.icon.url }}"></a>
+                            </div>
+                            <div class="uk-width-expand">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">{{ review.title }}</h3>
+                                <p class="uk-text-meta uk-margin-remove-top">
+                                    <a href="#">{{ review.user.username }}</a><br>
+                                    <time>{{ review.reviewed_at }}</time>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-card-body">
+                        <p class="uk-text-meta">Why read?</p>
+                        <p>{{ review.reason | linebreaksbr }}</p>
+                        <hr>
+                        <p class="uk-text-meta">Review</p>
+                        <p>{{ review.body | linebreaksbr }}</p>
+                    </div>
+                    <div class="uk-card-footer">
+                        <a href="{% url 'review_detail' review.id %}" class="uk-button uk-button-text">Read more</a>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="uk-text-center">まだレビューされていません</p>
+    {% endif %}
 
 {% endblock %}
