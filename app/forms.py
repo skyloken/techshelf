@@ -40,7 +40,8 @@ class PostReviewForm(forms.ModelForm):
         max_value=5.0,
         min_value=1.0,
         required=True,
-        widget=Stars
+        initial=1,
+        widget=Stars,
     )
 
     class Meta:

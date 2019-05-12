@@ -59,7 +59,7 @@
                 <form action="{% url 'books' %}" method="POST">{% csrf_token %}
                     <p>追加したい本のISBN(13桁)を入力してください</p>
                     {{ add_book_form.isbn }}
-                    <p class="uk-text-meta">
+                    <p>
                         ※ <a target="_blank" href="https://books.google.co.jp">Googleブックス</a>に存在する本にのみ対応しています<br>
                         ※ 技術書以外の追加はご遠慮ください
                     </p>
