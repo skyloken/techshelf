@@ -7,6 +7,15 @@
 
 {% block content %}
 
+    {% if messages %}
+        {% for message in messages %}
+            <div class="uk-alert-success uk-width-large uk-align-center" uk-alert>
+                <a class="uk-alert-close" uk-close></a>
+                <p class="uk-text-center">{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <button class="uk-button uk-button-primary uk-align-center" href="#modal-sections" uk-toggle><span
             uk-icon="plus"></span> Add New Book
     </button>
@@ -47,15 +56,14 @@
                 <h2 class="uk-modal-title">New Book</h2>
             </div>
             <div class="uk-modal-body uk-text-center">
-                <form action="{% url 'books' %}" method="POST">
-                    {% csrf_token %}
+                <form action="{% url 'books' %}" method="POST">{% csrf_token %}
                     <p>追加したい本のISBN(13桁)を入力してください</p>
                     {{ add_book_form.isbn }}
-                    <p class="uk-text-meta">
-                        ※ <a href="https://books.google.co.jp">Googleブックス</a>に存在する本にのみ対応しています<br>
+                    <p>
+                        ※ <a target="_blank" href="https://books.google.co.jp">Googleブックス</a>に存在する本にのみ対応しています<br>
                         ※ 技術書以外の追加はご遠慮ください
                     </p>
-                    <input class="uk-button uk-button-primary" type="submit" value="Add">
+                    <button class="uk-button uk-button-primary" type="submit">Add</button>
                 </form>
             </div>
         </div>

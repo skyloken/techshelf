@@ -25,6 +25,7 @@ class Book(models.Model):
     """Book"""
     isbn = models.CharField('ISBN', max_length=13)
     title = models.CharField('書籍名', max_length=200)
+    subtitle = models.CharField('サブタイトル', max_length=200, blank=True, null=True)
     authors = models.ManyToManyField(Author, verbose_name='著者')
     tags = models.ManyToManyField(Tag, verbose_name='タグ', blank=True)
     published_date = models.DateField('発刊日')
@@ -41,7 +42,7 @@ class Review(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='reviews',
                              verbose_name='レビューユーザ')
     book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='対象の本')
-    score = models.FloatField('スコア', validators=[MinValueValidator(1.0), MaxValueValidator(5.0)])
+    score = models.IntegerField('スコア', validators=[MinValueValidator(1), MaxValueValidator(5)])
     title = models.CharField('タイトル', max_length=200)
     reason = models.TextField('読んだ理由')
     body = models.TextField('レビュー')

@@ -23,6 +23,8 @@ def get_book_info(book):
 
     # 本情報を登録
     book.title = book_data['title']
+    if 'subtitle' in book_data:
+        book.subtitle = book_data['subtitle']
     book.description = book_data['description']
     book.image_link = book_data['imageLinks']['thumbnail']
     book.info_link = book_data['infoLink']
