@@ -12,6 +12,7 @@ gunicorn = "*"
 pillow = "*"
 django-storages = {extras = ["google"],version = "*"}
 python-dateutil = "*"
+django-starfield = "*"
 
 [requires]
 python_version = "3.7"

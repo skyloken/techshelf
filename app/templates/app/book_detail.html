@@ -6,11 +6,36 @@
 {% endblock %}
 
 {% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="uk-alert-success uk-width-large uk-align-center" uk-alert>
+                <a class="uk-alert-close" uk-close></a>
+                <p class="uk-text-center">{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
 
-    <div class="uk-flex uk-flex-center uk-margin-large uk-grid-large" uk-grid>
-        <div class="uk-width-auto">
-            <a href="{{ book.info_link }}"><img class="" src="{{ book.image_link }}"></a>
-            <div class="uk-margin-top uk-text-center">
+    <div class="uk-flex uk-flex-center uk-flex-middle" uk-grid>
+        <div class="uk-flex uk-flex-column uk-grid-small" uk-grid>
+            <div>
+                <a href="{{ book.info_link }}"><img class="" src="{{ book.image_link }}"></a><br>
+            </div>
+            {% if user.is_authenticated %}
+                <div class="uk-align-center">
+                    <a class="uk-icon-button" uk-icon="pencil" uk-tooltip="Review" href="#modal-sections" uk-toggle></a>
+                    <a class="uk-icon-button uk-margin-left" uk-icon="bookmark" uk-tooltip="Mark" href="#"
+                       uk-toggle></a>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="uk-width-large uk-margin-left">
+            {% for tag in book.tags.all %}
+                <span class="uk-label">{{ tag.name }}</span>
+            {% endfor %}
+            <h2>{{ book.title }}</h2>
+            <p class="uk-text-meta">{{ book.authors.all | join:', ' }}<br>{{ book.published_date | date:"Y/n" }}</p>
+            <div>
                 <span uk-icon="star"></span>
                 {% if not ave_score %}
                     <div class="uk-label uk-label-danger uk-text-large">0.0</div>
@@ -26,21 +51,16 @@
                     </div>
                 {% endif %}
             </div>
-        </div>
-        <div class="uk-width-large">
-            {% for tag in book.tags.all %}
-                <span class="uk-label">{{ tag.name }}</span>
-            {% endfor %}
-            <h2>{{ book.title }}</h2>
-            <p class="uk-text-meta">{{ book.authors.all | join:', ' }}<br>{{ book.published_date | date:"Y/n" }}</p>
             <p>{{ book.description | linebreaksbr }}</p>
         </div>
     </div>
 
-    <p class="uk-text-lead uk-text-center">Book reviews</p>
+    <hr class="uk-divider-icon">
+
+    <p class="uk-text-lead uk-text-center uk-margin-top">Latest reviews</p>
     {% if book.review_set.all %}
         <div uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 120; repeat: false">
-            {% for review in book.review_set.all %}
+            {% for review in reviews %}
                 <div class="uk-card uk-card-default uk-card-hover uk-width-2-3@s uk-align-center">
                     <div class="uk-card-badge">
                         <span uk-icon="star"></span>
@@ -86,5 +106,22 @@
     {% else %}
         <p class="uk-text-center">まだレビューされていません</p>
     {% endif %}
+
+    <div id="modal-sections" uk-modal>
+        <div class="uk-modal-dialog">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+            <div class="uk-modal-header">
+                <h2 class="uk-modal-title">Your Review</h2>
+            </div>
+            <div class="uk-modal-body">
+                <form action="{% url 'book_detail' book.id %}" method="POST">{% csrf_token %}
+                    {{ post_review_form.as_p }}
+                    <div class="uk-text-center">
+                        <button class="uk-button uk-button-primary" type="submit">Post</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
