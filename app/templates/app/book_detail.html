@@ -70,13 +70,13 @@
                     <div class="uk-card-badge">
                         <span uk-icon="star"></span>
                         {% if review.score >= 4.0 %}
-                            <div class="uk-label uk-text-large">{{ review.score }}</div>
+                            <div class="uk-label uk-text-large">{{ review.score | floatformat:1 }}</div>
                         {% elif review.score >= 3.0 %}
-                            <div class="uk-label uk-label-success uk-text-large">{{ review.score }}</div>
+                            <div class="uk-label uk-label-success uk-text-large">{{ review.score | floatformat:1 }}</div>
                         {% elif review.score >= 2.0 %}
-                            <div class="uk-label uk-label-warning uk-text-large">{{ review.score }}</div>
+                            <div class="uk-label uk-label-warning uk-text-large">{{ review.score | floatformat:1 }}</div>
                         {% else %}
-                            <div class="uk-label uk-label-danger uk-text-large">{{ review.score }}</div>
+                            <div class="uk-label uk-label-danger uk-text-large">{{ review.score | floatformat:1 }}</div>
                         {% endif %}
                     </div>
                     <div class="uk-card-header">
