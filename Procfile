@@ -1,1 +1,1 @@
-web: gunicorn teching.wsgi --log-file -
+web: gunicorn techshelf.wsgi --log-file -
