@@ -65,24 +65,12 @@
     <p class="uk-text-lead uk-text-center uk-margin-top">Latest reviews</p>
     {% if book.review_set.all %}
         <div uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 120; repeat: false">
-            {% for review in reviews %}
+            {% for review in book.latest_review_set %}
                 <div class="uk-card uk-card-default uk-card-hover uk-width-2-3@s uk-align-center">
-                    <div class="uk-card-badge">
-                        <span uk-icon="star"></span>
-                        {% if review.score >= 4.0 %}
-                            <div class="uk-label uk-text-large">{{ review.score | floatformat:1 }}</div>
-                        {% elif review.score >= 3.0 %}
-                            <div class="uk-label uk-label-success uk-text-large">{{ review.score | floatformat:1 }}</div>
-                        {% elif review.score >= 2.0 %}
-                            <div class="uk-label uk-label-warning uk-text-large">{{ review.score | floatformat:1 }}</div>
-                        {% else %}
-                            <div class="uk-label uk-label-danger uk-text-large">{{ review.score | floatformat:1 }}</div>
-                        {% endif %}
-                    </div>
                     <div class="uk-card-header">
                         <div class="uk-grid-small uk-flex-middle" uk-grid>
                             <div class="uk-width-auto">
-                                <a href="#"><img class="uk-border-circle" width="40" height="40"
+                                <a href="#"><img class="uk-border-circle" width="60" height="60"
                                                  src="{{ review.user.icon.url }}"></a>
                             </div>
                             <div class="uk-width-expand">
@@ -98,6 +86,17 @@
                         </div>
                     </div>
                     <div class="uk-card-body">
+                        <span uk-icon="star"></span>
+                        {% if review.score >= 4.0 %}
+                            <div class="uk-label uk-text-large">{{ review.score | floatformat:1 }}</div>
+                        {% elif review.score >= 3.0 %}
+                            <div class="uk-label uk-label-success uk-text-large">{{ review.score | floatformat:1 }}</div>
+                        {% elif review.score >= 2.0 %}
+                            <div class="uk-label uk-label-warning uk-text-large">{{ review.score | floatformat:1 }}</div>
+                        {% else %}
+                            <div class="uk-label uk-label-danger uk-text-large">{{ review.score | floatformat:1 }}</div>
+                        {% endif %}
+                        <hr>
                         <p class="uk-text-meta">Why read?</p>
                         <p>{{ review.reason | linebreaksbr }}</p>
                         <hr>

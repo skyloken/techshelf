@@ -2,11 +2,12 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <title>{% block title %}techshelf{% endblock %}</title>
+    <title>{% block title %}{{ APP_NAME }}{% endblock %}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static 'app/css/style.css' %}"/>
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/uikit.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'app/css/style.css' %}"/>
     {% block css %}{% endblock %}
 </head>
 <body>

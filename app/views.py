@@ -2,11 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib import messages
+from django.db.models import Avg
 
 from .models import Book, Review
 from .forms import CustomUserCreationForm, AddBookForm, PostReviewForm
 from .service import get_book_info
-from django.db.models import Avg
 
 
 class SignUpView(generic.CreateView):
@@ -53,13 +53,11 @@ def book_detail(request, book_id):
             review.save()
             messages.success(request, 'レビューが投稿されました')
         return redirect('book_detail', book_id=book_id)
-    agg = book.review_set.aggregate(Avg('score'))
     post_review_form = PostReviewForm()
     context = {
         'books_page': 'active',
         'book': book,
-        'reviews': book.review_set.order_by('-reviewed_at'),
-        'ave_score': agg['score__avg'],
+        'ave_score': book.review_set.aggregate(Avg('score'))['score__avg'],
         'post_review_form': post_review_form
     }
     return render(request, 'app/book_detail.html', context)

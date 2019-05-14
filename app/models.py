@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import Avg
 
 
 # Create your models here.
@@ -35,6 +36,9 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+    def latest_review_set(self):
+        return self.review_set.order_by('-reviewed_at')
 
 
 class Review(models.Model):

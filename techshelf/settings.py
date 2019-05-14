@@ -64,6 +64,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'techshelf.context_processors.common',
             ],
         },
     },
@@ -78,6 +79,8 @@ AUTH_USER_MODEL = 'users.User'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+APP_NAME = 'techshelf'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
