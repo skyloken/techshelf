@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django_starfield import Stars
 
 from .models import Book, Review
@@ -11,6 +11,16 @@ class CustomUserCreationForm(UserCreationForm):
         model = get_user_model()
 
     fields = UserCreationForm.Meta.fields + ('icon', 'bio')
+
+
+class LoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['username'].widget.attrs['class'] = 'uk-input uk-form-large'
+        self.fields['username'].widget.attrs['placeholder'] = 'Username'
+        self.fields['password'].widget.attrs['class'] = 'uk-input uk-form-large'
+        self.fields['password'].widget.attrs['placeholder'] = 'Password'
 
 
 class AddBookForm(forms.ModelForm):
