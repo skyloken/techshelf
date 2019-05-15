@@ -68,10 +68,11 @@
             </div>
             <div class="uk-modal-body uk-text-center">
                 <form action="{% url 'books' %}" method="POST">{% csrf_token %}
-                    <p>追加したい本のISBN(13桁)を入力してください</p>
+                    <p>追加したい本のISBNを入力してください</p>
                     {{ add_book_form.isbn }}
                     <p>
                         ※ <a target="_blank" href="https://books.google.co.jp">Googleブックス</a>に存在する本にのみ対応しています<br>
+                        ※ ISBN-10/13の両方に対応しています<br>
                         ※ 技術書以外の追加はご遠慮ください
                     </p>
                     <button class="uk-button uk-button-primary" type="submit">Add</button>

@@ -28,15 +28,12 @@ def review_detail(request, review_id):
 
 
 def books(request):
-    if request.method == "POST":
-        add_book_form = AddBookForm(request.POST)
-        if add_book_form.is_valid():
-            # 新規本追加処理
-            book = get_book_info(add_book_form.save(commit=False))
-            messages.success(request, '『{0}』を追加しました'.format(book.title))
-            return redirect('books')
-    else:
-        add_book_form = AddBookForm()
+    add_book_form = AddBookForm(request.POST or None)
+    if request.method == "POST" and add_book_form.is_valid():
+        # 新規本追加処理
+        book = get_book_info(add_book_form.save(commit=False))
+        messages.success(request, '『{0}』を追加しました'.format(book.title))
+        return redirect('books')
     book_list = Book.objects.order_by('title').annotate(ave_score=Avg('review__score'))
     context = {'books_page': 'active', 'book_list': book_list, 'add_book_form': add_book_form}
     return render(request, 'app/books.html', context)
@@ -44,17 +41,15 @@ def books(request):
 
 def book_detail(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
-    if request.method == "POST":
+    post_review_form = PostReviewForm(request.POST or None)
+    if request.method == "POST" and post_review_form.is_valid():
         # レビュー登録処理
-        post_review_form = PostReviewForm(request.POST)
-        if post_review_form.is_valid():
-            review = post_review_form.save(commit=False)
-            review.user = request.user
-            review.book = book
-            review.save()
-            messages.success(request, 'レビューが投稿されました')
+        review = post_review_form.save(commit=False)
+        review.user = request.user
+        review.book = book
+        review.save()
+        messages.success(request, 'レビューが投稿されました')
         return redirect('book_detail', book_id=book_id)
-    post_review_form = PostReviewForm()
     context = {
         'books_page': 'active',
         'book': book,

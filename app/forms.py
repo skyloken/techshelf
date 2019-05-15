@@ -2,6 +2,7 @@ import requests
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.core.validators import MinLengthValidator
 from django_starfield import Stars
 
 from .models import Book, Review
@@ -48,6 +49,17 @@ class AddBookForm(forms.ModelForm):
         data = response.json()
         if data['totalItems'] == 0:
             raise forms.ValidationError('この本はGoogleブックスに存在しません')
+
+        # ISBN-10の場合，ISBN-13に変換して重複チェック
+        if len(isbn) == 10:
+            identifiers = data['items'][0]['volumeInfo']['industryIdentifiers']
+            for identifier in identifiers:
+                if identifier['type'] == 'ISBN_13':
+                    isbn_13 = identifier['identifier']
+                    if Book.objects.filter(isbn=isbn_13).exists():
+                        raise forms.ValidationError('この本は既に登録済みです')
+                    else:
+                        isbn = isbn_13
 
         return isbn
 
