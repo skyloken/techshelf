@@ -1,12 +1,11 @@
+from django.contrib import messages
+from django.db.models import Avg
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
-from django.contrib import messages
-from django.db.models import Avg
 
-from .models import Book, Review
 from .forms import CustomUserCreationForm, AddBookForm, PostReviewForm
-from .service import get_book_info
+from .models import Book, Review
 
 
 class SignUpView(generic.CreateView):
@@ -31,7 +30,7 @@ def books(request):
     add_book_form = AddBookForm(request.POST or None)
     if request.method == "POST" and add_book_form.is_valid():
         # 新規本追加処理
-        book = get_book_info(add_book_form.save(commit=False))
+        book = add_book_form.save_from_api()
         messages.success(request, '『{0}』を追加しました'.format(book.title))
         return redirect('books')
     book_list = Book.objects.order_by('title').annotate(ave_score=Avg('review__score'))

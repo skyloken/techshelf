@@ -7,7 +7,7 @@
     {% if form.errors %}
         {% for errors in form.errors.values %}
             {% for error in errors %}
-                <div class="uk-alert-danger uk-align-center" uk-alert>
+                <div class="uk-width-large uk-alert-danger uk-align-center" uk-alert>
                     <a class="uk-alert-close" uk-close></a>
                     <p class="uk-text-center">{{ error }}</p>
                 </div>
@@ -18,7 +18,9 @@
     <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
         <div class="uk-width-1-1@m">
             <div class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
-                <h3 class="uk-card-title uk-text-center app-logo">{{ APP_NAME }}</h3>
+                <h3 class="uk-card-title uk-text-center">
+                    Sign in to <a class="app-logo uk-link-heading" href="{% url 'index' %}">{{ APP_NAME }}</a>
+                </h3>
                 <form method="post" action="{% url 'login' %}">
                     {% csrf_token %}
                     <div class="uk-margin">
