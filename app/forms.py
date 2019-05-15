@@ -1,20 +1,30 @@
 import requests
+from dateutil.parser import parse
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.core.validators import MinLengthValidator
 from django_starfield import Stars
 
-from .models import Book, Review
+from .models import Book, Review, Author
 
 url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:'
 
 
 class CustomUserCreationForm(UserCreationForm):
+    fields = UserCreationForm.Meta.fields + ('icon', 'bio')
+
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
 
-    fields = UserCreationForm.Meta.fields + ('icon', 'bio')
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['username'].widget.attrs['class'] = 'uk-input uk-form-large'
+        self.fields['username'].widget.attrs['placeholder'] = 'Username'
+        self.fields['password1'].widget.attrs['class'] = 'uk-input uk-form-large'
+        self.fields['password1'].widget.attrs['placeholder'] = 'Password'
+        self.fields['password2'].widget.attrs['class'] = 'uk-input uk-form-large'
+        self.fields['password2'].widget.attrs['placeholder'] = 'Password confirmation'
 
 
 class LoginForm(AuthenticationForm):
@@ -62,6 +72,32 @@ class AddBookForm(forms.ModelForm):
                         isbn = isbn_13
 
         return isbn
+
+    def save_from_api(self):
+        book = super().save(commit=False)
+
+        # Google Books API から本情報を取得
+        req_url = url + book.isbn
+        response = requests.get(req_url)
+        data = response.json()['items'][0]['volumeInfo']
+
+        # 本情報を登録
+        book.title = data['title']
+        if 'subtitle' in data:
+            book.subtitle = data['subtitle']
+        book.description = data['description']
+        book.image_link = data['imageLinks']['thumbnail']
+        book.info_link = data['infoLink']
+        book.published_date = parse(data['publishedDate']).date()
+        book.save()
+
+        # 著者検索・登録
+        book_authors = data['authors']
+        for book_author in book_authors:
+            author, created = Author.objects.get_or_create(name=book_author)
+            book.authors.add(author)
+
+        return book
 
 
 class PostReviewForm(forms.ModelForm):

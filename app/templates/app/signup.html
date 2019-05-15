@@ -3,12 +3,52 @@
 {% block nav %}{% endblock %}
 
 {% block content %}
-    <h1>Sign up</h1>
-    <section class="common-form">
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="submit">Sign up</button>
-        </form>
-    </section>
+
+    {% if form.errors %}
+        {% for errors in form.errors.values %}
+            {% for error in errors %}
+                <div class="uk-width-large uk-alert-danger uk-align-center" uk-alert>
+                    <a class="uk-alert-close" uk-close></a>
+                    <p class="uk-text-center">{{ error }}</p>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
+        <div class="uk-width-1-1@m">
+            <div class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
+                <h3 class="uk-card-title uk-text-center">
+                    Sign up to <a class="app-logo uk-link-heading" href="{% url 'index' %}">{{ APP_NAME }}</a>
+                </h3>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="uk-margin">
+                        <div class="uk-inline uk-width-1-1">
+                            <span class="uk-form-icon" uk-icon="icon: user"></span>
+                            {{ form.username }}
+                        </div>
+                    </div>
+                    <div class="uk-margin">
+                        <div class="uk-inline uk-width-1-1">
+                            <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                            {{ form.password1 }}
+                        </div>
+                        {{ form.password1.help_text }}
+                    </div>
+                    <div class="uk-margin">
+                        <div class="uk-inline uk-width-1-1">
+                            <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                            {{ form.password2 }}
+                        </div>
+                        {{ form.password2.help_text }}
+                    </div>
+                    <div class="uk-margin">
+                        <button class="uk-button uk-button-primary uk-button-large uk-width-1-1" type="submit">Sign up
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
