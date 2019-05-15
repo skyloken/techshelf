@@ -5,36 +5,47 @@
 {% block content %}
 
     {% if form.errors %}
-        <p>Your username and password didn't match. Please try again.</p>
+        {% for errors in form.errors.values %}
+            {% for error in errors %}
+                <div class="uk-alert-danger uk-align-center" uk-alert>
+                    <a class="uk-alert-close" uk-close></a>
+                    <p class="uk-text-center">{{ error }}</p>
+                </div>
+            {% endfor %}
+        {% endfor %}
     {% endif %}
 
-    {% if next %}
-        {% if user.is_authenticated %}
-            <p>Your account doesn't have access to this page. To proceed,
-                please login with an account that has access.</p>
-        {% else %}
-            <p>Please login to see this page.</p>
-        {% endif %}
-    {% endif %}
+    <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
+        <div class="uk-width-1-1@m">
+            <div class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
+                <h3 class="uk-card-title uk-text-center app-logo">{{ APP_NAME }}</h3>
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <div class="uk-margin">
+                        <div class="uk-inline uk-width-1-1">
+                            <span class="uk-form-icon" uk-icon="icon: user"></span>
+                            {{ form.username }}
+                        </div>
+                    </div>
+                    <div class="uk-margin">
+                        <div class="uk-inline uk-width-1-1">
+                            <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                            {{ form.password }}
+                        </div>
+                    </div>
+                    <div class="uk-margin">
+                        <button class="uk-button uk-button-primary uk-button-large uk-width-1-1" type="submit">Login
+                        </button>
+                        <input type="hidden" name="next" value="{{ next }}">
+                    </div>
+                    <div class="uk-text-small uk-text-center">
+                        <p>Not registered? <a href="{% url 'signup' %}">Create an account</a><br>
+                            <a href="{% url 'password_reset' %}">Forgot password?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        <table>
-            <tr>
-                <td>{{ form.username.label_tag }}</td>
-                <td>{{ form.username }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.password.label_tag }}</td>
-                <td>{{ form.password }}</td>
-            </tr>
-        </table>
-
-        <input type="submit" value="login">
-        <input type="hidden" name="next" value="{{ next }}">
-    </form>
-
-    {# Assumes you setup the password_reset view in your URLconf #}
-    <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
 
 {% endblock %}
