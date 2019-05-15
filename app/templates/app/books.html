@@ -16,6 +16,17 @@
         {% endfor %}
     {% endif %}
 
+    {% if add_book_form.errors %}
+        {% for errors in add_book_form.errors.values %}
+            {% for error in errors %}
+                <div class="uk-alert-danger uk-align-center" uk-alert>
+                    <a class="uk-alert-close" uk-close></a>
+                    <p class="uk-text-center">{{ error }}</p>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
     <button class="uk-button uk-button-primary uk-align-center" href="#modal-sections" uk-toggle><span
             uk-icon="plus"></span> Add New Book
     </button>

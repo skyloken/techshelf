@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, MinLengthValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -29,7 +29,7 @@ class Book(models.Model):
         max_length=13,
         unique=True,
         error_messages={
-            'unique': _("A book with that ISBN already exists."),
+            'unique': _("この本は既に登録済みです"),
         },
     )
     title = models.CharField('書籍名', max_length=200)
