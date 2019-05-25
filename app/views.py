@@ -69,7 +69,7 @@ class LikeReview(APIView):
     def get(self, request, review_id):
 
         review = get_object_or_404(Review, pk=review_id)
-        status = json.loads(request.GET.get('status'))
+        status = json.loads(request.query_params.get('status'))
         user = self.request.user
 
         if user in review.likes.all():
