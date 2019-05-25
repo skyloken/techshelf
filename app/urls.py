@@ -12,6 +12,8 @@ urlpatterns = [
     path('books/', views.books, name='books'),
     path('books/<int:book_id>', views.book_detail, name='book_detail'),
 
+    path('api/reviews/<int:review_id>/like/', views.LikeReview.as_view(), name='like_review_api'),
+
     path('login/', auth_views.LoginView.as_view(template_name='app/login.html', form_class=LoginForm), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('signup/', views.SignUpView.as_view(), name='signup'),

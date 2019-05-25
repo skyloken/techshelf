@@ -13,6 +13,7 @@ pillow = "*"
 django-storages = {extras = ["google"],version = "*"}
 python-dateutil = "*"
 django-starfield = "*"
+djangorestframework = "*"
 
 [requires]
 python_version = "3.7"

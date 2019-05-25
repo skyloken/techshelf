@@ -5,3 +5,12 @@
 .app-logo {
     font-family: 'Raleway', sans-serif;
 }
+
+.like-button {
+    border-radius: 10px;
+}
+
+.like-button-on {
+    background: #F75D5D;
+    color: #fff;
+}
