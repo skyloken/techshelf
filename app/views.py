@@ -85,6 +85,7 @@ class LikeReview(APIView):
                 review.likes.add(user)
                 liked = True
         data = {
-            "liked": liked
+            "liked": liked,
+            "likeCount": review.likes.count()
         }
         return Response(data)

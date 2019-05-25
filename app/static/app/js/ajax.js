@@ -28,12 +28,10 @@ $(".like-button").click(function (e) {
             method: "GET",
             data: {"status": true}, // いいねが押された場合
             success: function (data) {
-                let count = likeCount.text();
+                likeCount.text(data.likeCount);
                 if (data.liked) {
-                    likeCount.text(++count);　//　いいね + 1
                     likeButton.addClass("like-button-on");
-                } else {　　//　もしいいねされていたら
-                    likeCount.text(--count);　//　いいね - 1
+                } else {
                     likeButton.removeClass("like-button-on");
                 }
             }, error: function (error) {
