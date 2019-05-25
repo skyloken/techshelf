@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 
@@ -62,6 +63,10 @@ class Review(models.Model):
 
     def __str__(self):
         return self.title
+
+    # いいね情報を記録するページの設定
+    def get_api_like_url(self):
+        return reverse('like_review_api', kwargs={'review_id': self.id})
 
 
 class Comment(models.Model):

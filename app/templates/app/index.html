@@ -83,6 +83,11 @@
                     <p>{{ review.body | linebreaksbr }}</p>
                 </div>
                 <div class="uk-card-footer">
+                    <button class="uk-button like-button" data-href="{{ review.get_api_like_url }}">
+                        <span uk-icon="heart"></span>
+                        <span class="liked-count">{{ review.likes.count }}</span>
+                    </button>
+                    <hr>
                     <a href="{% url 'review_detail' review.id %}" class="uk-button uk-button-text">Read more</a>
                 </div>
             </div>
@@ -91,4 +96,8 @@
 
     <a href="#" uk-totop uk-scroll></a>
 
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'app/js/ajax.js' %}"></script>
 {% endblock %}

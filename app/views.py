@@ -3,6 +3,10 @@ from django.db.models import Avg
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import authentication, permissions
+import json
 
 from .forms import CustomUserCreationForm, AddBookForm, PostReviewForm
 from .models import Book, Review
@@ -56,3 +60,31 @@ def book_detail(request, book_id):
         'post_review_form': post_review_form
     }
     return render(request, 'app/book_detail.html', context)
+
+
+class LikeReview(APIView):
+    authentication_classes = (authentication.SessionAuthentication,)  # ユーザーが認証されているか確認
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, review_id):
+
+        review = get_object_or_404(Review, pk=review_id)
+        status = json.loads(request.GET.get('status'))
+        user = self.request.user
+
+        if user in review.likes.all():
+            if not status:
+                liked = True
+            else:
+                review.likes.remove(user)
+                liked = False
+        else:
+            if not status:
+                liked = False
+            else:
+                review.likes.add(user)
+                liked = True
+        data = {
+            "liked": liked
+        }
+        return Response(data)
