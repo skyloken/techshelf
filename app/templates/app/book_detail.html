@@ -43,7 +43,7 @@
             <div>
                 <span uk-icon="star"></span>
                 {% if not ave_score %}
-                    <div class="uk-label uk-label-danger uk-text-large">0.0</div>
+                    <div class="uk-label uk-background-secondary uk-text-large">—</div>
                 {% elif ave_score >= 4.0 %}
                     <div class="uk-label uk-text-large">{{ ave_score | floatformat:1 }}</div>
                 {% elif ave_score >= 3.0 %}
