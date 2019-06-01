@@ -59,8 +59,8 @@
                         </div>
                         <div class="uk-width-2-3">
                             <h4>
-                                <span href="{% url 'book_detail' review.book.id %}"
-                                      class="uk-link-heading">{{ review.book.title }}</span>
+                                <a href="{% url 'book_detail' review.book.id %}"
+                                   class="uk-link-heading">{{ review.book.title }}</a>
                             </h4>
                             {% if review.book.subtitle %}
                                 <p>{{ review.book.subtitle }}</p>
@@ -97,8 +97,6 @@
             </div>
         {% endfor %}
     </div>
-
-    <a href="#" uk-totop uk-scroll></a>
 
 {% endblock %}
 
