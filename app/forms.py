@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django_starfield import Stars
 
-from .models import Book, Review, Author
+from .models import Book, Review, Author, Comment
 
 url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:'
 
@@ -121,3 +121,13 @@ class PostReviewForm(forms.ModelForm):
         self.fields['title'].widget.attrs.update({'class': 'uk-input'})
         self.fields['reason'].widget.attrs.update({'class': 'uk-textarea', 'rows': 3})
         self.fields['body'].widget.attrs.update({'class': 'uk-textarea', 'rows': 8})
+
+
+class PostCommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('body',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['body'].widget.attrs.update({'class': 'uk-textarea', 'placeholder': 'コメントする', 'rows': 5})

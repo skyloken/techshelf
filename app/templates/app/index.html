@@ -27,14 +27,14 @@
 {% block content %}
 
     <p class="uk-text-lead uk-text-center">Latest reviews</p>
-    <div uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 120; repeat: false">
+    <div uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 50; repeat: false">
         {% for review in review_list %}
             <div class="uk-card uk-card-default uk-card-hover uk-width-2-3@s uk-align-center">
                 <div class="uk-card-header">
                     <div class="uk-grid-small uk-flex-middle" uk-grid>
                         <div class="uk-width-auto">
                             <a href="#"><img class="uk-border-circle" width="60" height="60"
-                                             src="{{ review.user.icon.url }}"></a>
+                                             src="{{ review.user.icon.url }}" alt=""></a>
                         </div>
                         <div class="uk-width-expand">
                             <p class="uk-card-title uk-margin-remove-bottom">

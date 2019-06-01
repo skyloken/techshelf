@@ -7,6 +7,15 @@
 
 {% block content %}
 
+    {% if messages %}
+        {% for message in messages %}
+            <div class="uk-alert-success uk-width-large uk-align-center" uk-alert>
+                <a class="uk-alert-close" uk-close></a>
+                <p class="uk-text-center">{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <ul class="uk-comment-list">
         <li>
             <article class="uk-comment uk-visible-toggle" tabindex="-1">
@@ -26,15 +35,21 @@
                             <p class="uk-comment-meta uk-margin-remove-top">{{ review.reviewed_at }}</p>
                         </div>
                     </div>
+                    <div class="uk-position-top-right uk-position-small">
+                        <button class="uk-button like-button" data-href="{{ review.get_api_like_url }}">
+                            <span uk-icon="heart"></span>
+                            <span class="liked-count">{{ review.likes.count }}</span>
+                        </button>
+                    </div>
                 </header>
                 <div class="uk-comment-body">
                     <hr>
                     <div class="uk-grid-large uk-flex-center uk-flex-middle" uk-grid>
                         <div class="uk-width-auto">
                             <a href="{% url 'book_detail' review.book.id %}"><img
-                                    src="{{ review.book.image_link }}"></a>
+                                    src="{{ review.book.image_link }}" alt=""></a>
                         </div>
-                        <div class="uk-width-auto">
+                        <div class="uk-width-1-2">
                             <h4>
                                 <a href="{% url 'book_detail' review.book.id %}"
                                    class="uk-link-heading">{{ review.book.title }}</a>
@@ -61,17 +76,12 @@
                     <p class="uk-text-meta">Review</p>
                     <p class="uk-text-lead">{{ review.body | linebreaksbr }}</p>
                 </div>
-                <hr>
-                <button class="uk-button like-button" data-href="{{ review.get_api_like_url }}">
-                    <span uk-icon="heart"></span>
-                    <span class="liked-count">{{ review.likes.count }}</span>
-                </button>
             </article>
 
             <hr class="uk-divider-icon">
 
-            <p class="uk-text-lead uk-text-center uk-margin-top">Comments</p>
-            {% if review.comment_set.all %}
+            <p class="uk-text-lead uk-text-center">Comments</p>
+            {% if review.oldest_comment_set %}
                 <ul>
                     {% for comment in review.comment_set.all %}
                         <li>
@@ -106,6 +116,16 @@
             {% endif %}
         </li>
     </ul>
+
+    <div class="uk-margin-medium"></div>
+
+    <form action="{% url 'review_detail' review.id %}" method="POST">{% csrf_token %}
+        <legend class="uk-legend">Post Comment</legend>
+        <div class="uk-margin">
+            {{ post_comment_form.body }}
+        </div>
+        <button class="uk-button uk-button-primary" type="submit">Post</button>
+    </form>
 
 {% endblock %}
 

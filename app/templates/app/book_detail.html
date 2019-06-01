@@ -64,7 +64,7 @@
 
     <p class="uk-text-lead uk-text-center uk-margin-top">Latest reviews</p>
     {% if book.review_set.all %}
-        <div uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 120; repeat: false">
+        <div uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 50; repeat: false">
             {% for review in book.latest_review_set %}
                 <div class="uk-card uk-card-default uk-card-hover uk-width-2-3@s uk-align-center">
                     <div class="uk-card-header">
