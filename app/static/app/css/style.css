@@ -6,11 +6,17 @@
     font-family: 'Raleway', sans-serif;
 }
 
-.like-button {
+.my-button {
+    background-color: #ebebeb;
     border-radius: 10px;
 }
 
 .like-button-on {
     background: #F75D5D;
     color: #fff;
+}
+
+.mark-button-on {
+    background: #FFF100;
+    color: #000000;
 }
