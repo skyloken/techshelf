@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework import authentication, permissions
 import json
 
-from .forms import CustomUserCreationForm, AddBookForm, PostReviewForm
+from .forms import CustomUserCreationForm, AddBookForm, PostReviewForm, PostCommentForm
 from .models import Book, Review
 
 
@@ -26,13 +26,22 @@ def index(request):
 
 def review_detail(request, review_id):
     review = get_object_or_404(Review, pk=review_id)
-    context = {'reviews_page': 'active', 'review': review}
+    post_comment_form = PostCommentForm(request.POST or None)
+    if request.method == 'POST' and post_comment_form.is_valid():
+        # コメント投稿
+        comment = post_comment_form.save(commit=False)
+        comment.user = request.user
+        comment.review = review
+        comment.save()
+        messages.success(request, 'コメントが投稿されました')
+        return redirect('review_detail', review_id=review_id)
+    context = {'reviews_page': 'active', 'review': review, 'post_comment_form': post_comment_form}
     return render(request, 'app/review_detail.html', context)
 
 
 def books(request):
     add_book_form = AddBookForm(request.POST or None)
-    if request.method == "POST" and add_book_form.is_valid():
+    if request.method == 'POST' and add_book_form.is_valid():
         # 新規本追加処理
         book = add_book_form.save_from_api()
         messages.success(request, '『{0}』を追加しました'.format(book.title))

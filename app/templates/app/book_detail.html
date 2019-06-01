@@ -43,7 +43,7 @@
             <div>
                 <span uk-icon="star"></span>
                 {% if not ave_score %}
-                    <div class="uk-label uk-label-danger uk-text-large">0.0</div>
+                    <div class="uk-label uk-background-secondary uk-text-large">—</div>
                 {% elif ave_score >= 4.0 %}
                     <div class="uk-label uk-text-large">{{ ave_score | floatformat:1 }}</div>
                 {% elif ave_score >= 3.0 %}
@@ -64,7 +64,7 @@
 
     <p class="uk-text-lead uk-text-center uk-margin-top">Latest reviews</p>
     {% if book.review_set.all %}
-        <div uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 120; repeat: false">
+        <div uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 50; repeat: false">
             {% for review in book.latest_review_set %}
                 <div class="uk-card uk-card-default uk-card-hover uk-width-2-3@s uk-align-center">
                     <div class="uk-card-header">

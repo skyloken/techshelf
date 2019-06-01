@@ -68,13 +68,16 @@ class Review(models.Model):
     def get_api_like_url(self):
         return reverse('like_review_api', kwargs={'review_id': self.id})
 
+    def oldest_comment_set(self):
+        return self.comment_set.order_by('commented_at')
+
 
 class Comment(models.Model):
     """Comment on the Review"""
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name='コメントユーザ')
     review = models.ForeignKey(Review, on_delete=models.CASCADE, verbose_name='対象のレビュー')
     body = models.TextField('コメント')
-    commented_at = models.DateTimeField('コメント日時')
+    commented_at = models.DateTimeField('コメント日時', auto_now_add=True)
 
     def __str__(self):
         return self.body
@@ -85,7 +88,7 @@ class Mark(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name='マークユーザ')
     book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='対象の本')
     comment = models.TextField('コメント', blank=True, null=True)
-    marked_at = models.DateTimeField('マーク日時')
+    marked_at = models.DateTimeField('マーク日時', auto_now_add=True)
 
     def __str__(self):
         return self.comment

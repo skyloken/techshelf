@@ -23,7 +23,7 @@
                 </ul>
             {% else %}
                 <div class="uk-navbar-item uk-visible@s">
-                    <a class="uk-button uk-button-default" href="{% url 'login' %}">Log in</a>
+                    <a class="uk-button uk-button-default" href="{% url 'login' %}?next={{ request.path }}">Log in</a>
                 </div>
                 <div class="uk-navbar-item uk-visible@s">
                     <a class="uk-button uk-button-danger" href="{% url 'signup' %}">Sign up</a>

@@ -13,10 +13,10 @@
             <div class="uk-text-center">
                 <h1 class="uk-heading-medium text-against-img">Mark, Read, Review.</h1>
                 <p class="uk-text-emphasis text-against-img">
-                    <span class="app-logo">{{ APP_NAME }}</span>は，技術書レビューサービスです．<br>
-                    読みたい技術書をマークしましょう．<br>
-                    技術書を読んで，レビューしましょう．<br>
-                    そして，良い技術書に出会いましょう ;)<br>
+                    <span class="app-logo">{{ APP_NAME }}</span>は、技術書レビューサービスです。<br>
+                    読みたい技術書をマークしましょう。<br>
+                    技術書を読んで、レビューしましょう。<br>
+                    そして、良い技術書に出会いましょう ;)<br>
                 </p>
                 <a href="{% url 'books' %}" class="uk-button uk-button-danger">技術書一覧へ</a>
             </div>
@@ -27,14 +27,14 @@
 {% block content %}
 
     <p class="uk-text-lead uk-text-center">Latest reviews</p>
-    <div uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 120; repeat: false">
+    <div uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 50; repeat: false">
         {% for review in review_list %}
             <div class="uk-card uk-card-default uk-card-hover uk-width-2-3@s uk-align-center">
                 <div class="uk-card-header">
                     <div class="uk-grid-small uk-flex-middle" uk-grid>
                         <div class="uk-width-auto">
                             <a href="#"><img class="uk-border-circle" width="60" height="60"
-                                             src="{{ review.user.icon.url }}"></a>
+                                             src="{{ review.user.icon.url }}" alt=""></a>
                         </div>
                         <div class="uk-width-expand">
                             <p class="uk-card-title uk-margin-remove-bottom">
@@ -72,7 +72,7 @@
                             {% else %}
                                 <div class="uk-label uk-label-danger uk-text-large">{{ review.score | floatformat:1 }}</div>
                             {% endif %}
-                            <p class="uk-text-meta">{{ review.book.description | truncatechars:100 }}</p>
+                            <p class="uk-text-meta">{{ review.book.description | linebreaksbr | truncatechars:100 }}</p>
                         </div>
                     </div>
                     <hr>
