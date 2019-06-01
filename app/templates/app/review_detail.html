@@ -121,7 +121,7 @@
     <div class="uk-margin-medium"></div>
 
     <form action="{% url 'review_detail' review.id %}" method="POST">{% csrf_token %}
-        <legend class="uk-legend">Post Comment</legend>
+        <legend class="uk-legend">Your Comment</legend>
         <div class="uk-margin">
             {{ post_comment_form.body }}
         </div>

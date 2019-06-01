@@ -36,40 +36,32 @@
         {% for book in book_list %}
             <div>
                 <div class="uk-card uk-card-default uk-card-hover uk-card-media-top">
-                    <a href="{% url 'book_detail' book.id %}"><img src="{{ book.image_link }}" alt=""></a>
-                </div>
-                <div class="uk-align-center uk-margin-remove-top">
-                    <a class="uk-button uk-button-small" href="{% url 'book_detail' book.id %}" uk-tooltip="Review">
-                        <span uk-icon="pencil"></span>
-                        <span class="marked-count">{{ book.review_set.count }}</span>
+                    <a class="uk-link-reset" href="{% url 'book_detail' book.id %}">
+                        <img src="{{ book.image_link }}" alt="">
+                        <div class="uk-grid-collapse uk-text-center uk-child-width-1-3"
+                             style="font-size: 10px;" uk-grid>
+                            <div>
+                                <span uk-icon="pencil"></span><br>
+                                <span>{{ book.review_set.count }}</span>
+                            </div>
+                            <div class="mark-button" data-href="{{ book.get_api_mark_url }}">
+                                <span uk-icon="bookmark"></span><br>
+                                <span class="mark-count">{{ book.marks.count }}</span>
+                            </div>
+                            <div>
+                                <span uk-icon="star"></span><br>
+                                <span>
+                                    {% if book.ave_score %}{{ book.ave_score | floatformat:1 }}{% else %}—{% endif %}
+                                </span>
+                            </div>
+                        </div>
                     </a>
-                    <div class="mark-button uk-button uk-button-small"
-                         uk-tooltip="Mark" data-href="{{ book.get_api_mark_url }}">
-                        <span uk-icon="bookmark"></span>
-                        <span class="marked-count">{{ book.marks.count }}</span>
-                    </div>
                 </div>
-                <div class="uk-text-center">
-                    <span uk-icon="star"></span>
-                    {% if not book.ave_score %}
-                        <div class="uk-label uk-background-secondary uk-text-large">—</div>
-                    {% elif book.ave_score >= 4.0 %}
-                        <div class="uk-label uk-text-large">{{ book.ave_score | floatformat:1 }}</div>
-                    {% elif book.ave_score >= 3.0 %}
-                        <div class="uk-label uk-label-success uk-text-large">{{ book.ave_score | floatformat:1 }}</div>
-                    {% elif book.ave_score >= 2.0 %}
-                        <div class="uk-label uk-label-warning uk-text-large">{{ book.ave_score | floatformat:1 }}
-                        </div>
-                    {% else %}
-                        <div class="uk-label uk-label-danger uk-text-large">{{ book.ave_score | floatformat:1 }}
-                        </div>
-                    {% endif %}
-                </div>
+
             </div>
 
         {% endfor %}
     </div>
-    <a href="#" uk-totop uk-scroll></a>
 
     <div id="add-book-modal" uk-modal>
         <div class="uk-modal-dialog">
