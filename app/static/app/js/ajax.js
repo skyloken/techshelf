@@ -39,7 +39,55 @@ $(".like-button").click(function (e) {
             },
             statusCode: {
                 403: function () {
-                    location.href = "/login"; // 未ログインの場合はログインページへリダイレクト
+                    location.href = "/login?next=" + location.href; // 未ログインの場合はログインページへリダイレクト
+                }
+            }
+        })
+    }
+});
+
+$(function () {
+    $(".mark-button").each(function (index, element) {
+        const markButton = $(element);
+        const markUrl = markButton.attr("data-href");
+        $.ajax({
+            url: markUrl,
+            method: "GET",
+            data: {"status": false},
+            success: function (data) {
+                if (data.marked) {
+                    markButton.addClass("mark-button-on");
+                }
+            }, error: function (error) {
+                console.log("error");
+            }
+        })
+    });
+});
+
+$(".mark-button").click(function (e) {
+    e.preventDefault();
+    const markButton = $(this);
+    const markCount = markButton.find(".marked-count");
+    const markUrl = markButton.attr("data-href");
+    if (markUrl) {
+        $.ajax({
+            url: markUrl,
+            method: "GET",
+            data: {"status": true}, // いいねが押された場合
+            success: function (data) {
+                markCount.text(data.markCount);
+                if (data.marked) {
+                    markButton.addClass("mark-button-on");
+                } else {
+                    markButton.removeClass("mark-button-on");
+                }
+            }, error: function (error) {
+                console.log("error")
+            },
+            statusCode: {
+                403: function () {
+                    location.href = "/login?next=" + location.href; // 未ログインの場合はログインページへリダイレクト
                 }
             }
         })

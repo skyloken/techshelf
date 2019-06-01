@@ -36,7 +36,8 @@
                         </div>
                     </div>
                     <div class="uk-position-top-right uk-position-small">
-                        <button class="uk-button like-button" data-href="{{ review.get_api_like_url }}">
+                        <button class="like-button uk-button uk-button-small my-button" uk-tooltip="Like"
+                                data-href="{{ review.get_api_like_url }}">
                             <span uk-icon="heart"></span>
                             <span class="liked-count">{{ review.likes.count }}</span>
                         </button>

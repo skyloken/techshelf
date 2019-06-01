@@ -41,9 +41,14 @@ class Book(models.Model):
     description = models.TextField('説明')
     image_link = models.URLField('画像URL')
     info_link = models.URLField('書籍情報URL')
+    marks = models.ManyToManyField(get_user_model(), related_name='marks', verbose_name='マークしたユーザ', blank=True)
 
     def __str__(self):
         return self.title
+
+    # マーク情報を記録するページの設定
+    def get_api_mark_url(self):
+        return reverse('mark_book_api', kwargs={'book_id': self.id})
 
     def latest_review_set(self):
         return self.review_set.order_by('-reviewed_at')
@@ -81,14 +86,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.body
-
-
-class Mark(models.Model):
-    """Mark for the Book"""
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name='マークユーザ')
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, verbose_name='対象の本')
-    comment = models.TextField('コメント', blank=True, null=True)
-    marked_at = models.DateTimeField('マーク日時', auto_now_add=True)
-
-    def __str__(self):
-        return self.comment

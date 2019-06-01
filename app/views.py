@@ -47,7 +47,11 @@ def books(request):
         messages.success(request, '『{0}』を追加しました'.format(book.title))
         return redirect('books')
     book_list = Book.objects.order_by('title').annotate(ave_score=Avg('review__score'))
-    context = {'books_page': 'active', 'book_list': book_list, 'add_book_form': add_book_form}
+    context = {
+        'books_page': 'active',
+        'book_list': book_list,
+        'add_book_form': add_book_form
+    }
     return render(request, 'app/books.html', context)
 
 
@@ -96,5 +100,34 @@ class LikeReview(APIView):
         data = {
             "liked": liked,
             "likeCount": review.likes.count()
+        }
+        return Response(data)
+
+
+class MarkBook(APIView):
+    authentication_classes = (authentication.SessionAuthentication,)  # ユーザーが認証されているか確認
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, book_id):
+
+        book = get_object_or_404(Book, pk=book_id)
+        status = json.loads(request.query_params.get('status'))
+        user = self.request.user
+
+        if user in book.marks.all():
+            if not status:
+                marked = True
+            else:
+                book.marks.remove(user)
+                marked = False
+        else:
+            if not status:
+                marked = False
+            else:
+                book.marks.add(user)
+                marked = True
+        data = {
+            "marked": marked,
+            "markCount": book.marks.count()
         }
         return Response(data)

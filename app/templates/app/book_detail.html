@@ -22,9 +22,16 @@
             </div>
             {% if user.is_authenticated %}
                 <div class="uk-align-center">
-                    <a class="uk-icon-button" uk-icon="pencil" uk-tooltip="Review" href="#modal-sections" uk-toggle></a>
-                    <a class="uk-icon-button uk-margin-left" uk-icon="bookmark" uk-tooltip="Mark" href="#"
-                       uk-toggle></a>
+                    <button class="uk-button uk-button-small my-button"
+                            uk-tooltip="Review" href="#modal-sections" uk-toggle>
+                        <span uk-icon="pencil"></span>
+                        <span class="marked-count">{{ book.review_set.count }}</span>
+                    </button>
+                    <button class="mark-button uk-button uk-button-small my-button"
+                            uk-tooltip="Mark" data-href="{{ book.get_api_mark_url }}">
+                        <span uk-icon="bookmark"></span>
+                        <span class="marked-count">{{ book.marks.count }}</span>
+                    </button>
                 </div>
             {% endif %}
         </div>
@@ -104,7 +111,8 @@
                         <p>{{ review.body | linebreaksbr }}</p>
                     </div>
                     <div class="uk-card-footer">
-                        <button class="uk-button like-button" data-href="{{ review.get_api_like_url }}">
+                        <button class="like-button uk-button uk-button-small my-button"
+                                uk-tooltip="Like" data-href="{{ review.get_api_like_url }}">
                             <span uk-icon="heart"></span>
                             <span class="liked-count">{{ review.likes.count }}</span>
                         </button>
