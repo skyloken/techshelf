@@ -56,8 +56,8 @@
                         </div>
                         <div class="uk-width-2-3">
                             <h4>
-                                <a href="{% url 'book_detail' review.book.id %}"
-                                   class="uk-link-heading">{{ review.book.title }}</a>
+                                    <span href="{% url 'book_detail' review.book.id %}"
+                                          class="uk-link-heading">{{ review.book.title }}</span>
                             </h4>
                             {% if review.book.subtitle %}
                                 <p>{{ review.book.subtitle }}</p>
@@ -83,7 +83,8 @@
                     <p>{{ review.body | linebreaksbr }}</p>
                 </div>
                 <div class="uk-card-footer">
-                    <button class="like-button uk-button uk-button-small my-button" data-href="{{ review.get_api_like_url }}">
+                    <button class="like-button uk-button uk-button-small my-button" uk-tooltip="Like"
+                            data-href="{{ review.get_api_like_url }}">
                         <span uk-icon="heart"></span>
                         <span class="liked-count">{{ review.likes.count }}</span>
                     </button>

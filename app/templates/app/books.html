@@ -27,7 +27,7 @@
         {% endfor %}
     {% endif %}
 
-    <button class="uk-button uk-button-primary uk-align-center" href="#modal-sections" uk-toggle><span
+    <button class="uk-button uk-button-primary uk-align-center" href="#add-book-modal" uk-toggle><span
             uk-icon="plus"></span> Add New Book
     </button>
     <p class="uk-text-lead uk-text-center">Books</p>
@@ -38,7 +38,18 @@
                 <div class="uk-card uk-card-default uk-card-hover uk-card-media-top">
                     <a href="{% url 'book_detail' book.id %}"><img src="{{ book.image_link }}" alt=""></a>
                 </div>
-                <div class="uk-margin-top uk-text-center">
+                <div class="uk-align-center uk-margin-remove-top">
+                    <a class="uk-button uk-button-small" href="{% url 'book_detail' book.id %}" uk-tooltip="Review">
+                        <span uk-icon="pencil"></span>
+                        <span class="marked-count">{{ book.review_set.count }}</span>
+                    </a>
+                    <div class="mark-button uk-button uk-button-small"
+                         uk-tooltip="Mark" data-href="{{ book.get_api_mark_url }}">
+                        <span uk-icon="bookmark"></span>
+                        <span class="marked-count">{{ book.marks.count }}</span>
+                    </div>
+                </div>
+                <div class="uk-text-center">
                     <span uk-icon="star"></span>
                     {% if not book.ave_score %}
                         <div class="uk-label uk-background-secondary uk-text-large">—</div>
@@ -60,7 +71,7 @@
     </div>
     <a href="#" uk-totop uk-scroll></a>
 
-    <div id="modal-sections" uk-modal>
+    <div id="add-book-modal" uk-modal>
         <div class="uk-modal-dialog">
             <button class="uk-modal-close-default" type="button" uk-close></button>
             <div class="uk-modal-header">
@@ -81,4 +92,8 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'app/js/ajax.js' %}"></script>
 {% endblock %}

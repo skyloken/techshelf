@@ -39,7 +39,7 @@ $(".like-button").click(function (e) {
             },
             statusCode: {
                 403: function () {
-                    location.href = "/login"; // 未ログインの場合はログインページへリダイレクト
+                    location.href = "/login?next=" + location.href; // 未ログインの場合はログインページへリダイレクト
                 }
             }
         })
@@ -84,6 +84,11 @@ $(".mark-button").click(function (e) {
                 }
             }, error: function (error) {
                 console.log("error")
+            },
+            statusCode: {
+                403: function () {
+                    location.href = "/login?next=" + location.href; // 未ログインの場合はログインページへリダイレクト
+                }
             }
         })
     }

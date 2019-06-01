@@ -47,7 +47,11 @@ def books(request):
         messages.success(request, '『{0}』を追加しました'.format(book.title))
         return redirect('books')
     book_list = Book.objects.order_by('title').annotate(ave_score=Avg('review__score'))
-    context = {'books_page': 'active', 'book_list': book_list, 'add_book_form': add_book_form}
+    context = {
+        'books_page': 'active',
+        'book_list': book_list,
+        'add_book_form': add_book_form
+    }
     return render(request, 'app/books.html', context)
 
 
