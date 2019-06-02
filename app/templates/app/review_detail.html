@@ -22,7 +22,7 @@
                 <header class="uk-comment-header uk-position-relative">
                     <div class="uk-grid-medium uk-flex-middle" uk-grid>
                         <div class="uk-width-auto">
-                            <a href="{% url 'mypage' user.username %}">
+                            <a href="{% url 'mypage' review.user.username %}">
                                 <img class="uk-comment-avatar" src="{{ review.user.icon.url }}" width="80" height="80"
                                      alt="">
                             </a>
@@ -31,7 +31,7 @@
                             <h1>{{ review.title }}</h1>
                             <h4 class="uk-comment-title uk-margin-remove">
                                 <a class="uk-link-reset"
-                                   href="{% url 'mypage' user.username %}">{{ review.user.username }}</a>
+                                   href="{% url 'mypage' review.user.username %}">{{ review.user.username }}</a>
                             </h4>
                             <p class="uk-comment-meta uk-margin-remove-top">{{ review.reviewed_at }}</p>
                         </div>
@@ -60,15 +60,9 @@
                                 <p>{{ review.book.subtitle }}</p>
                             {% endif %}
                             <span uk-icon="star"></span>
-                            {% if review.score >= 4.0 %}
-                                <div class="uk-label uk-text-large">{{ review.score | floatformat:1 }}</div>
-                            {% elif review.score >= 3.0 %}
-                                <div class="uk-label uk-label-success uk-text-large">{{ review.score | floatformat:1 }}</div>
-                            {% elif review.score >= 2.0 %}
-                                <div class="uk-label uk-label-warning uk-text-large">{{ review.score | floatformat:1 }}</div>
-                            {% else %}
-                                <div class="uk-label uk-label-danger uk-text-large">{{ review.score | floatformat:1 }}</div>
-                            {% endif %}
+                            <div class="review-score uk-label uk-text-large">
+                                {{ review.score | floatformat:1 }}
+                            </div>
                             <p class="uk-text-meta">{{ review.book.description | linebreaksbr | truncatechars:100 }}</p>
                         </div>
                     </div>
@@ -91,14 +85,14 @@
                                 <header class="uk-comment-header uk-position-relative">
                                     <div class="uk-grid-medium uk-flex-middle" uk-grid>
                                         <div class="uk-width-auto">
-                                            <a href="{% url 'mypage' user.username %}">
+                                            <a href="{% url 'mypage' comment.user.username %}">
                                                 <img class="uk-comment-avatar" src="{{ comment.user.icon.url }}"
                                                      width="80" height="80" alt="">
                                             </a>
                                         </div>
                                         <div class="uk-width-expand">
                                             <h4 class="uk-comment-title uk-margin-remove">
-                                                <a class="uk-link-reset" href="{% url 'mypage' user.username %}">
+                                                <a class="uk-link-reset" href="{% url 'mypage' comment.user.username %}">
                                                     {{ comment.user.username }}
                                                 </a>
                                             </h4>

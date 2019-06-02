@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.db.models import Avg
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
@@ -52,6 +53,9 @@ class Book(models.Model):
 
     def latest_review_set(self):
         return self.review_set.order_by('-reviewed_at')
+
+    def ave_score(self):
+        return self.review_set.aggregate(Avg('score'))['score__avg']
 
 
 class Review(models.Model):

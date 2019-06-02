@@ -66,7 +66,6 @@ def book_detail(request, book_id):
     context = {
         'books_page': 'active',
         'book': book,
-        'ave_score': book.review_set.aggregate(Avg('score'))['score__avg'],
         'post_review_form': post_review_form
     }
     return render(request, 'app/book_detail.html', context)

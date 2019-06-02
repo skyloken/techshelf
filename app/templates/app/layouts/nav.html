@@ -14,7 +14,7 @@
                         <a href="#">{{ user.get_username }}<span uk-icon="triangle-down"></span></a>
                         <div class="uk-navbar-dropdown">
                             <ul class="uk-nav uk-navbar-dropdown-nav">
-                                <li><a href="{% url 'mypage' user.username %}"><span uk-icon="user"></span> MyPage</a></li>
+                                <li><a href="{% url 'mypage' user.username %}"><span uk-icon="user"></span> My page</a></li>
                                 <li><a href="{% url 'logout' %}"><span uk-icon="sign-out"></span> Log out</a></li>
                             </ul>
                         </div>
@@ -41,7 +41,7 @@
 
         <button class="uk-offcanvas-close" type="button" uk-close></button>
 
-        <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
+        <ul class="uk-nav-primary uk-nav-center uk-nav-parent-icon uk-margin-auto-vertical" uk-nav>
 
             <li class="uk-{{ reviews_page }}"><a href="{% url 'index' %}">Reviews</a></li>
             <li class="uk-{{ books_page }}"><a href="{% url 'books' %}">Books</a></li>
@@ -51,7 +51,7 @@
                 <li class="uk-parent">
                     <a href="#">{{ user.get_username }}</a>
                     <ul class="uk-nav-sub">
-                        <li><a href="{% url 'mypage' user.username %}"><span uk-icon="user"></span> MyPage</a></li>
+                        <li><a href="{% url 'mypage' user.username %}"><span uk-icon="user"></span> My page</a></li>
                         <li><a href="{% url 'logout' %}"><span uk-icon="sign-out"></span> Log out</a></li>
                     </ul>
                 </li>
