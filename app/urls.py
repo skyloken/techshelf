@@ -2,6 +2,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import path
 
 from . import views
+from . import api
 from .forms import LoginForm
 
 urlpatterns = [
@@ -12,8 +13,8 @@ urlpatterns = [
     path('books/', views.books, name='books'),
     path('books/<int:book_id>', views.book_detail, name='book_detail'),
 
-    path('api/reviews/<int:review_id>/like/', views.LikeReview.as_view(), name='like_review_api'),
-    path('api/books/<int:book_id>/mark/', views.MarkBook.as_view(), name='mark_book_api'),
+    path('api/reviews/<int:review_id>/like/', api.LikeReview.as_view(), name='like_review_api'),
+    path('api/books/<int:book_id>/mark/', api.MarkBook.as_view(), name='mark_book_api'),
 
     path('login/', auth_views.LoginView.as_view(template_name='app/login.html', form_class=LoginForm), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
