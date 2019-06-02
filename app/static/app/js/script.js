@@ -93,3 +93,18 @@ $(".mark-button").click(function (e) {
         })
     }
 });
+
+$(function () {
+    $(".review-score").each((i, e) => {
+        const reviewScore = $(e);
+        const score = parseFloat(reviewScore.text());
+        if (score >= 4.0) {
+        } else if (score >= 3.0) {
+            reviewScore.addClass("uk-label-success");
+        } else if (score >= 2.0) {
+            reviewScore.addClass("uk-label-warning");
+        } else {
+            reviewScore.addClass("uk-label-danger");
+        }
+    });
+});

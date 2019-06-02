@@ -16,7 +16,8 @@
 {% block nav %}{% include 'app/layouts/nav.html' %}{% endblock %}
 {% block jumbotron %}{% endblock %}
 <div class="uk-section">
-    <a class="uk-position-fixed uk-position-medium uk-position-bottom-right uk-position-z-index" href="#" uk-totop uk-scroll></a>
+    <a class="uk-position-fixed uk-position-medium uk-position-bottom-right uk-position-z-index" href="#" uk-totop
+       uk-scroll></a>
     <div class="uk-container uk-container-small">
         {% block content %}{% endblock %}
     </div>
@@ -25,6 +26,7 @@
 <script src="{% static 'js/uikit.min.js' %}"></script>
 <script src="{% static 'js/uikit-icons.min.js' %}"></script>
 <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'app/js/script.js' %}"></script>
 {% block js %}{% endblock %}
 </body>
 </html>

@@ -33,7 +33,7 @@
                 <div class="uk-card-header">
                     <div class="uk-grid-small uk-flex-middle" uk-grid>
                         <div class="uk-width-auto">
-                            <a href="#">
+                            <a href="{% url 'mypage' review.user.username %}">
                                 <img class="uk-border-circle" width="60" height="60" src="{{ review.user.icon.url }}"
                                      alt="">
                             </a>
@@ -44,7 +44,7 @@
                                    class="uk-link-heading">{{ review.title }}</a>
                             </p>
                             <p class="uk-text-meta">
-                                <a href="#">{{ review.user.username }}</a><br>
+                                <a href="{% url 'mypage' review.user.username %}">{{ review.user.username }}</a><br>
                                 <time>{{ review.reviewed_at }}</time>
                             </p>
                         </div>
@@ -66,15 +66,9 @@
                                 <p>{{ review.book.subtitle }}</p>
                             {% endif %}
                             <span uk-icon="star"></span>
-                            {% if review.score >= 4.0 %}
-                                <div class="uk-label uk-text-large">{{ review.score | floatformat:1 }}</div>
-                            {% elif review.score >= 3.0 %}
-                                <div class="uk-label uk-label-success uk-text-large">{{ review.score | floatformat:1 }}</div>
-                            {% elif review.score >= 2.0 %}
-                                <div class="uk-label uk-label-warning uk-text-large">{{ review.score | floatformat:1 }}</div>
-                            {% else %}
-                                <div class="uk-label uk-label-danger uk-text-large">{{ review.score | floatformat:1 }}</div>
-                            {% endif %}
+                            <div class="review-score uk-label uk-text-large">
+                                {{ review.score | floatformat:1 }}
+                            </div>
                             <p class="uk-text-meta">{{ review.book.description | linebreaksbr | truncatechars:100 }}</p>
                         </div>
                     </div>
@@ -98,8 +92,4 @@
         {% endfor %}
     </div>
 
-{% endblock %}
-
-{% block js %}
-    <script src="{% static 'app/js/ajax.js' %}"></script>
 {% endblock %}
