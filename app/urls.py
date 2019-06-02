@@ -11,7 +11,9 @@ urlpatterns = [
     path('reviews/<int:review_id>/', views.review_detail, name='review_detail'),
 
     path('books/', views.books, name='books'),
-    path('books/<int:book_id>', views.book_detail, name='book_detail'),
+    path('books/<int:book_id>/', views.book_detail, name='book_detail'),
+
+    path('users/<str:username>/', views.mypage, name='mypage'),
 
     path('api/reviews/<int:review_id>/like/', api.LikeReview.as_view(), name='like_review_api'),
     path('api/books/<int:book_id>/mark/', api.MarkBook.as_view(), name='mark_book_api'),

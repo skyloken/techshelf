@@ -3,10 +3,7 @@ from django.db.models import Avg
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import authentication, permissions
-import json
+from django.contrib.auth import get_user_model
 
 from .forms import CustomUserCreationForm, AddBookForm, PostReviewForm, PostCommentForm
 from .models import Book, Review
@@ -73,3 +70,11 @@ def book_detail(request, book_id):
         'post_review_form': post_review_form
     }
     return render(request, 'app/book_detail.html', context)
+
+
+def mypage(request, username):
+    user = get_object_or_404(get_user_model(), username=username)
+    context = {
+        'myuser': user
+    }
+    return render(request, 'app/mypage.html', context)
