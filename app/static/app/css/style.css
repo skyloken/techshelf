@@ -20,3 +20,17 @@
     background: #FFF100;
     color: #000000;
 }
+
+.book-card-img {
+    border-radius: 5px 5px 0 0;
+}
+
+.book-card {
+    border-radius: 5px;
+}
+
+.book-icon-button {
+    font-size: 10px;
+    padding: 5px 5px 5px 5px;
+    transition: 0.2s;
+}
