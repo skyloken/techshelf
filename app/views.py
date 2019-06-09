@@ -36,6 +36,15 @@ def review_detail(request, review_id):
     return render(request, 'app/review_detail.html', context)
 
 
+def review_delete(request, review_id):
+    review = get_object_or_404(Review, pk=review_id)
+    book = review.book
+    if review.user == request.user:
+        review.delete()
+        messages.success(request, 'レビューを削除しました')
+    return redirect('book_detail', book.id)
+
+
 def books(request):
     add_book_form = AddBookForm(request.POST or None)
     if request.method == 'POST' and add_book_form.is_valid():
@@ -54,19 +63,34 @@ def books(request):
 
 def book_detail(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
-    post_review_form = PostReviewForm(request.POST or None)
-    if request.method == "POST" and post_review_form.is_valid():
+    review = Review.objects.filter(book=book)
+
+    if review.exists():
+        post_review_form = PostReviewForm(request.POST or None, instance=review.first())
+        review_label = 'Update'
+        message = 'レビューが更新されました'
+        is_reviewed = True
+    else:
+        post_review_form = PostReviewForm(request.POST or None)
+        review_label = 'Post'
+        message = 'レビューが投稿されました'
+        is_reviewed = False
+
+    if request.method == 'POST' and post_review_form.is_valid():
         # レビュー登録処理
         review = post_review_form.save(commit=False)
         review.user = request.user
         review.book = book
         review.save()
-        messages.success(request, 'レビューが投稿されました')
+        messages.success(request, message)
         return redirect('book_detail', book_id=book_id)
+
     context = {
         'books_page': 'active',
         'book': book,
-        'post_review_form': post_review_form
+        'post_review_form': post_review_form,
+        'review_label': review_label,
+        'is_reviewed': is_reviewed
     }
     return render(request, 'app/book_detail.html', context)
 

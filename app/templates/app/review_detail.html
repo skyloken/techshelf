@@ -42,6 +42,23 @@
                             <span uk-icon="heart"></span>
                             <span class="liked-count">{{ review.likes.count }}</span>
                         </button>
+                        {% if review.user == user %}
+                            <button uk-toggle="target: #delete-modal"
+                                    class="uk-icon-button" uk-icon="trash"></button>
+                            <div id="delete-modal" uk-modal>
+                                <div class="uk-modal-dialog uk-modal-body">
+                                    <h2 class="uk-modal-title">Delete Review</h2>
+                                    <p>レビューを削除しますか?</p>
+                                    <p class="uk-text-right">
+                                        <button class="uk-button uk-button-default uk-modal-close" type="button">
+                                            Cancel
+                                        </button>
+                                        <a class="uk-button uk-button-danger"
+                                           href="{% url 'review_delete' review.id %}">Delete</a>
+                                    </p>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </header>
                 <div class="uk-comment-body">
@@ -92,7 +109,8 @@
                                         </div>
                                         <div class="uk-width-expand">
                                             <h4 class="uk-comment-title uk-margin-remove">
-                                                <a class="uk-link-reset" href="{% url 'mypage' comment.user.username %}">
+                                                <a class="uk-link-reset"
+                                                   href="{% url 'mypage' comment.user.username %}">
                                                     {{ comment.user.username }}
                                                 </a>
                                             </h4>
