@@ -35,11 +35,11 @@
          uk-scrollspy="cls: uk-animation-fade; target: .uk-card; delay: 100; repeat: false">
         {% for book in book_list %}
             <div>
-                <div class="book-card uk-card uk-card-default uk-card-hover uk-card-media-top">
+                <div class="uk-card uk-card-default uk-card-hover uk-card-media-top">
                     <a class="uk-link-reset" href="{% url 'book_detail' book.id %}">
-                        <img class="book-card-img" src="{{ book.image_link }}" alt="">
+                        <img src="{{ book.image_link }}" alt="">
                         <div class="uk-grid-collapse uk-text-center uk-child-width-1-3" uk-grid>
-                            <div class="book-icon-button">
+                            <div class="review-button book-icon-button" data-href="{{ book.get_is_reviewed_url }}">
                                 <span uk-icon="pencil"></span><br>
                                 <span>{{ book.review_set.count }}</span>
                             </div>

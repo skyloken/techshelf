@@ -95,6 +95,24 @@ $(".mark-button").click(function (e) {
 });
 
 $(function () {
+    $(".review-button").each(function (index, element) {
+        const reviewButton = $(element);
+        const reviewUrl = reviewButton.attr("data-href");
+        $.ajax({
+            url: reviewUrl,
+            method: "GET",
+            success: function (data) {
+                if (data.reviewed) {
+                    reviewButton.addClass("review-button-on");
+                }
+            }, error: function (error) {
+                console.log("error");
+            }
+        })
+    });
+});
+
+$(function () {
     $(".review-score").each((i, e) => {
         const reviewScore = $(e);
         const score = parseFloat(reviewScore.text());
