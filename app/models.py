@@ -47,9 +47,13 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
-    # マーク情報を記録するページの設定
+    # マーク情報を記録するAPI
     def get_api_mark_url(self):
         return reverse('mark_book_api', kwargs={'book_id': self.id})
+
+    # レビューフラグを取得するAPI
+    def get_is_reviewed_url(self):
+        return reverse('is_reviewed_api', kwargs={'book_id': self.id})
 
     def latest_review_set(self):
         return self.review_set.order_by('-reviewed_at')
@@ -73,7 +77,7 @@ class Review(models.Model):
     def __str__(self):
         return self.title
 
-    # いいね情報を記録するページの設定
+    # いいね情報を記録するAPI
     def get_api_like_url(self):
         return reverse('like_review_api', kwargs={'review_id': self.id})
 

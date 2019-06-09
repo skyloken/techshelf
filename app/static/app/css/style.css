@@ -21,12 +21,9 @@
     color: #000000;
 }
 
-.book-card-img {
-    border-radius: 5px 5px 0 0;
-}
-
-.book-card {
-    border-radius: 5px;
+.review-button-on {
+    background: #FFF100;
+    color: #000000;
 }
 
 .book-icon-button {

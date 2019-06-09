@@ -64,3 +64,22 @@ class MarkBook(APIView):
             "markCount": book.marks.count()
         }
         return Response(data)
+
+
+class IsReviewed(APIView):
+    authentication_classes = (authentication.SessionAuthentication,)  # ユーザーが認証されているか確認
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, book_id):
+
+        book = get_object_or_404(Book, pk=book_id)
+        user = self.request.user
+
+        if user in [review.user for review in book.review_set.all()]:
+            reviewed = True
+        else:
+            reviewed = False
+        data = {
+            "reviewed": reviewed
+        }
+        return Response(data)

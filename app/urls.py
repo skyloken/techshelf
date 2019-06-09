@@ -9,6 +9,7 @@ urlpatterns = [
 
     path('', views.index, name='index'),
     path('reviews/<int:review_id>/', views.review_detail, name='review_detail'),
+    path('reviews/<int:review_id>/delete/', views.review_delete, name='review_delete'),
 
     path('books/', views.books, name='books'),
     path('books/<int:book_id>/', views.book_detail, name='book_detail'),
@@ -17,6 +18,7 @@ urlpatterns = [
 
     path('api/reviews/<int:review_id>/like/', api.LikeReview.as_view(), name='like_review_api'),
     path('api/books/<int:book_id>/mark/', api.MarkBook.as_view(), name='mark_book_api'),
+    path('api/books/<int:book_id>/is_reviewed/', api.IsReviewed.as_view(), name='is_reviewed_api'),
 
     path('login/', auth_views.LoginView.as_view(template_name='app/login.html', form_class=LoginForm), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
