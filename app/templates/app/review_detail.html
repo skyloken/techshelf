@@ -133,14 +133,16 @@
         </li>
     </ul>
 
-    <div class="uk-margin-medium"></div>
+    {% if user.is_authenticated %}
+        <div class="uk-margin-medium"></div>
 
-    <form action="{% url 'review_detail' review.id %}" method="POST">{% csrf_token %}
-        <legend class="uk-legend">Your Comment</legend>
-        <div class="uk-margin">
-            {{ post_comment_form.body }}
-        </div>
-        <button class="uk-button uk-button-primary" type="submit">Post</button>
-    </form>
+        <form action="{% url 'review_detail' review.id %}" method="POST">{% csrf_token %}
+            <legend class="uk-legend">Your Comment</legend>
+            <div class="uk-margin">
+                {{ post_comment_form.body }}
+            </div>
+            <button class="uk-button uk-button-primary" type="submit">Post</button>
+        </form>
+    {% endif %}
 
 {% endblock %}
