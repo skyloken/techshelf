@@ -19,7 +19,7 @@
                     {{ myuser.bio | linebreaksbr }}
                 {% endif %}
             </p>
-            {% if user.is_authenticated %}
+            {% if user == myuser %}
                 <a class="uk-button uk-button-default uk-width-1-1" href="{% url 'user_settings' %}">Edit profile</a>
             {% endif %}
         </div>
