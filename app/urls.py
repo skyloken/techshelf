@@ -16,6 +16,8 @@ urlpatterns = [
 
     path('users/<str:username>/', views.mypage, name='mypage'),
 
+    path('settings/user', views.UserChangeView.as_view(), name='user_settings'),
+
     path('api/reviews/<int:review_id>/like/', api.LikeReview.as_view(), name='like_review_api'),
     path('api/books/<int:book_id>/mark/', api.MarkBook.as_view(), name='mark_book_api'),
     path('api/books/<int:book_id>/is_reviewed/', api.IsReviewed.as_view(), name='is_reviewed_api'),
