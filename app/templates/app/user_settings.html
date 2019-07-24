@@ -1,0 +1,39 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+
+    <h1 class="uk-heading-divider">User settings</h1>
+
+    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+        <div class="uk-margin" uk-form-custom>
+            <input type="file" name="icon" accept="image/*" id="id_icon">
+            <img src="{{ form.instance.icon.url }}" width="300" height="300" alt=""><br>
+        </div>
+        <div class="uk-margin preview"></div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-stacked-text">Username</label><br>
+            {{ form.username }}
+            <div class="uk-text-meta">{{ form.username.help_text }}</div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-stacked-text">First name</label><br>
+            {{ form.first_name }}
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-stacked-text">Last name</label><br>
+            {{ form.last_name }}
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-stacked-text">Email</label><br>
+            {{ form.email }}
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="form-stacked-text">Biography</label><br>
+            {{ form.bio }}
+        </div>
+        <div class="uk-margin">
+            <button class="uk-button uk-button-primary uk-button-large" type="submit">Save</button>
+        </div>
+    </form>
+
+{% endblock %}

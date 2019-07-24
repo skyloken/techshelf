@@ -2,7 +2,7 @@ import requests
 from dateutil.parser import parse
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django_starfield import Stars
 
 from .models import Book, Review, Author, Comment
@@ -11,8 +11,6 @@ url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:'
 
 
 class CustomUserCreationForm(UserCreationForm):
-    fields = UserCreationForm.Meta.fields + ('icon', 'bio')
-
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
 
@@ -25,6 +23,23 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['password1'].widget.attrs['placeholder'] = 'Password'
         self.fields['password2'].widget.attrs['class'] = 'uk-input uk-form-large'
         self.fields['password2'].widget.attrs['placeholder'] = 'Password confirmation'
+
+
+class CustomUserChangeForm(UserChangeForm):
+    password = None
+
+    class Meta(UserChangeForm.Meta):
+        model = get_user_model()
+        fields = ('icon', 'username', 'first_name', 'last_name', 'email', 'bio',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['username'].widget.attrs['class'] = 'uk-input uk-form-width-large'
+        self.fields['first_name'].widget.attrs['class'] = 'uk-input uk-form-width-large'
+        self.fields['last_name'].widget.attrs['class'] = 'uk-input uk-form-width-large'
+        self.fields['email'].widget.attrs['class'] = 'uk-input uk-form-width-large'
+        self.fields['bio'].widget.attrs.update({'class': 'uk-textarea', 'rows': 8})
 
 
 class LoginForm(AuthenticationForm):

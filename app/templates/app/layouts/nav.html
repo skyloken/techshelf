@@ -15,6 +15,7 @@
                         <div class="uk-navbar-dropdown">
                             <ul class="uk-nav uk-navbar-dropdown-nav">
                                 <li><a href="{% url 'mypage' user.username %}"><span uk-icon="user"></span> My page</a></li>
+                                <li><a href="{% url 'user_settings' %}"><span uk-icon="settings"></span> Settings</a></li>
                                 <li><a href="{% url 'logout' %}"><span uk-icon="sign-out"></span> Log out</a></li>
                             </ul>
                         </div>
@@ -52,6 +53,7 @@
                     <a href="#">{{ user.get_username }}</a>
                     <ul class="uk-nav-sub">
                         <li><a href="{% url 'mypage' user.username %}"><span uk-icon="user"></span> My page</a></li>
+                        <li><a href="{% url 'user_settings' %}"><span uk-icon="settings"></span> Settings</a></li>
                         <li><a href="{% url 'logout' %}"><span uk-icon="sign-out"></span> Log out</a></li>
                     </ul>
                 </li>
