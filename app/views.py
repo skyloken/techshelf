@@ -65,35 +65,43 @@ def books(request):
 
 def book_detail(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
-    review = Review.objects.filter(book=book)
 
-    if review.exists():
-        post_review_form = PostReviewForm(request.POST or None, instance=review.first())
-        review_label = 'Update'
-        message = 'レビューが更新されました'
-        is_reviewed = True
+    if request.user.is_authenticated:
+        user_review = Review.objects.filter(book=book, user=request.user)
+
+        if user_review.exists():
+            post_review_form = PostReviewForm(request.POST or None, instance=user_review.first())
+            review_label = 'Update'
+            message = 'レビューが更新されました'
+            is_reviewed = True
+        else:
+            post_review_form = PostReviewForm(request.POST or None)
+            review_label = 'Post'
+            message = 'レビューが投稿されました'
+            is_reviewed = False
+
+        if request.method == 'POST' and post_review_form.is_valid():
+            # レビュー登録処理
+            review = post_review_form.save(commit=False)
+            review.user = request.user
+            review.book = book
+            review.save()
+            messages.success(request, message)
+            return redirect('book_detail', book_id=book_id)
+
+        context = {
+            'books_page': 'active',
+            'book': book,
+            'post_review_form': post_review_form,
+            'review_label': review_label,
+            'is_reviewed': is_reviewed
+        }
     else:
-        post_review_form = PostReviewForm(request.POST or None)
-        review_label = 'Post'
-        message = 'レビューが投稿されました'
-        is_reviewed = False
+        context = {
+            'books_page': 'active',
+            'book': book
+        }
 
-    if request.method == 'POST' and post_review_form.is_valid():
-        # レビュー登録処理
-        review = post_review_form.save(commit=False)
-        review.user = request.user
-        review.book = book
-        review.save()
-        messages.success(request, message)
-        return redirect('book_detail', book_id=book_id)
-
-    context = {
-        'books_page': 'active',
-        'book': book,
-        'post_review_form': post_review_form,
-        'review_label': review_label,
-        'is_reviewed': is_reviewed
-    }
     return render(request, 'app/book_detail.html', context)
 
 
