@@ -6,7 +6,7 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-django = "==2.2.8"
+django = "==2.2.28"
 django-heroku = "*"
 psycopg2 = {version = "*",platform_release = "=='4.4.0-1048-aws'"}
 gunicorn = "*"
